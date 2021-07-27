@@ -1,17 +1,20 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
-from botbuilder.core import ActivityHandler, TurnContext,CardFactory,MessageFactory
-from botbuilder.schema import ChannelAccount,HeroCard, CardAction, CardImage,ActionTypes ,Attachment,Activity,ActivityTypes
-import requests,json, base64
+from botbuilder.core import ActivityHandler, TurnContext, CardFactory, MessageFactory
+from botbuilder.schema import ChannelAccount, HeroCard, CardAction, CardImage, ActionTypes, Attachment, Activity, ActivityTypes
+import requests
+import json,os
+import base64
+
 
 def create_hero_card() -> Attachment:
     file = os.path.join(os.getcwd(), "cost.jpg")
     image = open(file, 'rb')
     image_read = image.read()
     # image_64_encode = base64.encodebytes(image_read) #encodestring also works aswell as decodestring
-    image_64_encode = base64.b64encode(image_read).decode() #encodestring also works aswell as decodestring
-    herocard = HeroCard(title="推薦以下兩個選項", 
+    # encodestring also works aswell as decodestring
+    image_64_encode = base64.b64encode(image_read).decode()
     # images=[
     #     CardImage(
     #         url="https://ct.yimg.com/xd/api/res/1.2/VhPkyLMc5NAyXyGfjLgA5g--/YXBwaWQ9eXR3YXVjdGlvbnNlcnZpY2U7aD01ODU7cT04NTtyb3RhdGU9YXV0bzt3PTcwMA--/https://s.yimg.com/ob/image/82cbd7d4-5802-4b2b-99bd-690512b34730.jpg"
@@ -19,43 +22,49 @@ def create_hero_card() -> Attachment:
     # buttons=[
     #     CardAction(type=ActionTypes.open_url,title="url1",value="https://www.google.com"),
     #     CardAction(type=ActionTypes.open_url,title="url2",value="https://www.yahoo.com"),
-    #     ]),
-    images=[
-            name="cost.jpg",
-            content_type="image/jpg",
-            content_url=f"data:image/jpg;base64,{image_64_encode}",
-    ],
-    buttons=[
-    CardAction(type=ActionTypes.open_url,title="url1",value="https://www.google.com"),
-    CardAction(type=ActionTypes.open_url,title="url2",value="https://www.yahoo.com"),
-    ])
+    #     ])
+    herocard = HeroCard(title="推薦以下兩個選項",
+                        images=[CardImage(
+                            name="cost.jpg",
+                            content_type="image/jpg",
+                            content_url=f"data:image/jpg;base64,{image_64_encode}")
+                        ],
+                        buttons=[
+                            CardAction(type=ActionTypes.open_url,
+                                       title="url1", value="https://www.google.com"),
+                            CardAction(type=ActionTypes.open_url,
+                                       title="url2", value="https://www.yahoo.com"),
+                        ])
     return CardFactory.hero_card(herocard)
+
 
 class MyBot(ActivityHandler):
     # See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
-    contextToReturn=None
+    contextToReturn = None
+
     async def on_message_activity(self, turn_context: TurnContext):
         print((turn_context.activity))
         # print('activity: ',json.dumps(turn_context.activity, sort_keys=True, indent=4),'\n')
         # await turn_context.send_activity(f"You said '{ turn_context.activity.text }'")
-        if turn_context.activity.text=='todo':
-            contextToReturn=requests.get('https://jsonplaceholder.typicode.com/todos/1').content.decode('utf-8')
-        elif turn_context.activity.text=='my_ehr':
-            contextToReturn='https://myehr'
-        elif turn_context.activity.text=='card':
+        if turn_context.activity.text == 'todo':
+            contextToReturn = requests.get(
+                'https://jsonplaceholder.typicode.com/todos/1').content.decode('utf-8')
+        elif turn_context.activity.text == 'my_ehr':
+            contextToReturn = 'https://myehr'
+        elif turn_context.activity.text == 'card':
             cardAtt = create_hero_card()
             contextToReturn = MessageFactory.attachment(cardAtt)
-        elif turn_context.activity.text=='testMessage':
+        elif turn_context.activity.text == 'testMessage':
             contextToReturn = MessageFactory.text(
-                    "Welcome to CardBot. "
-                    + "This bot will show you different types of Rich Cards. "
-                    + "Please type anything to get started."
-                )
-        else:   
-            contextToReturn=f"You said '{ turn_context.activity.text }'"
+                "Welcome to CardBot. "
+                + "This bot will show you different types of Rich Cards. "
+                + "Please type anything to get started."
+            )
+        else:
+            contextToReturn = f"You said '{ turn_context.activity.text }'"
         await turn_context.send_activity(contextToReturn)
         print()
-        
+
     async def on_members_added_activity(
         self,
         members_added: ChannelAccount,
