@@ -23,12 +23,11 @@ def create_hero_card() -> Attachment:
     #     CardAction(type=ActionTypes.open_url,title="url1",value="https://www.google.com"),
     #     CardAction(type=ActionTypes.open_url,title="url2",value="https://www.yahoo.com"),
     #     ])
-    # CardImage
+                            # name="cost.jpg",
+                            # content_type="image/jpg",
     herocard = HeroCard(title="推薦以下兩個選項",
-                        images=[(
-                            name="cost.jpg",
-                            content_type="image/jpg",
-                            content_url=f"data:image/jpg;base64,{image_64_encode}")
+                        images=[CardImage(
+                            url=f"data:image/jpg;base64,{image_64_encode}")
                         ],
                         buttons=[
                             CardAction(type=ActionTypes.open_url,
