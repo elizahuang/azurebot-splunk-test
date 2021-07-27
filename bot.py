@@ -7,14 +7,27 @@ import requests,json
 
 def create_hero_card() -> Attachment:
     herocard = HeroCard(title="推薦以下兩個選項", 
+    # images=[
+    #     CardImage(
+    #         url="https://ct.yimg.com/xd/api/res/1.2/VhPkyLMc5NAyXyGfjLgA5g--/YXBwaWQ9eXR3YXVjdGlvbnNlcnZpY2U7aD01ODU7cT04NTtyb3RhdGU9YXV0bzt3PTcwMA--/https://s.yimg.com/ob/image/82cbd7d4-5802-4b2b-99bd-690512b34730.jpg"
+    #     )],#https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
+    # buttons=[
+    #     CardAction(type=ActionTypes.open_url,title="url1",value="https://www.google.com"),
+    #     CardAction(type=ActionTypes.open_url,title="url2",value="https://www.yahoo.com"),
+    #     ])
+    import base64
+    file = 'cost.jpg'
+    image = open(file, 'rb')
+    image_read = image.read()
+    image_64_encode = base64.encodebytes(image_read) #encodestring also works aswell as decodestring
     images=[
-        CardImage(
-            url="https://ct.yimg.com/xd/api/res/1.2/VhPkyLMc5NAyXyGfjLgA5g--/YXBwaWQ9eXR3YXVjdGlvbnNlcnZpY2U7aD01ODU7cT04NTtyb3RhdGU9YXV0bzt3PTcwMA--/https://s.yimg.com/ob/image/82cbd7d4-5802-4b2b-99bd-690512b34730.jpg"
-        )],#https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
+    CardImage(image_64_encode
+        
+    )],
     buttons=[
-        CardAction(type=ActionTypes.open_url,title="url1",value="https://www.google.com"),
-        CardAction(type=ActionTypes.open_url,title="url2",value="https://www.yahoo.com"),
-        ])
+    CardAction(type=ActionTypes.open_url,title="url1",value="https://www.google.com"),
+    CardAction(type=ActionTypes.open_url,title="url2",value="https://www.yahoo.com"),
+    ])
     return CardFactory.hero_card(herocard)
 
 class MyBot(ActivityHandler):
