@@ -6,6 +6,11 @@ from botbuilder.schema import ChannelAccount,HeroCard, CardAction, CardImage,Act
 import requests,json, base64
 
 def create_hero_card() -> Attachment:
+    file = 'os.path.join(os.getcwd(), "cost.jpg")
+    image = open(file, 'rb')
+    image_read = image.read()
+    # image_64_encode = base64.encodebytes(image_read) #encodestring also works aswell as decodestring
+    image_64_encode = base64.b64encode(image_read).decode() #encodestring also works aswell as decodestring
     herocard = HeroCard(title="推薦以下兩個選項", 
     # images=[
     #     CardImage(
@@ -14,13 +19,7 @@ def create_hero_card() -> Attachment:
     # buttons=[
     #     CardAction(type=ActionTypes.open_url,title="url1",value="https://www.google.com"),
     #     CardAction(type=ActionTypes.open_url,title="url2",value="https://www.yahoo.com"),
-    #     ])
-
-    file = 'os.path.join(os.getcwd(), "cost.jpg")
-    image = open(file, 'rb')
-    image_read = image.read()
-    # image_64_encode = base64.encodebytes(image_read) #encodestring also works aswell as decodestring
-    image_64_encode = base64.b64encode(image_read).decode() #encodestring also works aswell as decodestring
+    #     ]),
     images=[
             name="cost.jpg",
             content_type="image/jpg",
