@@ -3,7 +3,7 @@
 
 from botbuilder.core import ActivityHandler, TurnContext, CardFactory, MessageFactory
 from botbuilder.schema import AnimationCard,MediaUrl, SigninCard,OAuthCard,ChannelAccount, HeroCard, CardAction, CardImage, ActionTypes, Attachment, Activity, ActivityTypes
-from botbuilder.dialogs.choices import Choice
+from pip install botbuilder-dialogs.choices import Choice
 import requests
 import json,os
 import base64
