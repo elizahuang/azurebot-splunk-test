@@ -56,18 +56,13 @@ class MyBot(ActivityHandler):
         elif turn_context.activity.text == 'card':
             cardAtt = create_hero_card()
             contextToReturn = MessageFactory.attachment(cardAtt)
-        elif turn_context.activity.text == 'testMessage':
-            contextToReturn = MessageFactory.text(
-                "Welcome to CardBot. "
-                + "This bot will show you different types of Rich Cards. "
-                + "Please type anything to get started."
-            )
+
         elif turn_context.activity.text == 'animation':
-            card = AnimationCard(
-            media=[MediaUrl(url="http://i.giphy.com/Ki55RUbOV5njy.gif")],
+            card = AnimationCard(media=[MediaUrl(url="http://i.giphy.com/Ki55RUbOV5njy.gif")],
             title="Microsoft Bot Framework",
             subtitle="Animation Card", )
-            contextToReturn=CardFactory.animation_card(card)
+            # contextToReturn=CardFactory.animation_card(card)s
+            contextToReturn=MessageFactory.attachment(card)
         elif turn_context.activity.text=='auth':
             card = OAuthCard(
             text="BotFramework OAuth Card",
@@ -90,8 +85,7 @@ class MyBot(ActivityHandler):
                     title="Sign-in",
                     value="https://login.microsoftonline.com",
                 )
-            ],
-        )
+            ])
             contextToReturn=CardFactory.signin_card(card)
         elif turn_context.activity.text=="choice":
             card_options = [
