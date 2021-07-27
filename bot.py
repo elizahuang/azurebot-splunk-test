@@ -3,7 +3,7 @@
 
 from botbuilder.core import ActivityHandler, TurnContext,CardFactory,MessageFactory
 from botbuilder.schema import ChannelAccount,HeroCard, CardAction, CardImage,ActionTypes ,Attachment,Activity,ActivityTypes
-import requests,json
+import requests,json, base64
 
 def create_hero_card() -> Attachment:
     herocard = HeroCard(title="推薦以下兩個選項", 
@@ -15,8 +15,8 @@ def create_hero_card() -> Attachment:
     #     CardAction(type=ActionTypes.open_url,title="url1",value="https://www.google.com"),
     #     CardAction(type=ActionTypes.open_url,title="url2",value="https://www.yahoo.com"),
     #     ])
-    import base64
-    file = 'cost.jpg'
+
+    file = 'os.path.join(os.getcwd(), "cost.jpg")
     image = open(file, 'rb')
     image_read = image.read()
     # image_64_encode = base64.encodebytes(image_read) #encodestring also works aswell as decodestring
