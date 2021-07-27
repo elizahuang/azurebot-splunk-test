@@ -56,13 +56,18 @@ class MyBot(ActivityHandler):
         elif turn_context.activity.text == 'card':
             cardAtt = create_hero_card()
             contextToReturn = MessageFactory.attachment(cardAtt)
-
+        elif turn_context.activity.text == 'attach':
+            contextToReturn =Attachment(
+            name="architecture-resize.png",
+            content_type="image/png",
+            content_url="https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png",
+        )
         elif turn_context.activity.text == 'animation':
             card = AnimationCard(media=[MediaUrl(url="http://i.giphy.com/Ki55RUbOV5njy.gif")],
             title="Microsoft Bot Framework",
-            subtitle="Animation Card", )
+            subtitle="Animation Card",text='test animation' )
             # contextToReturn=CardFactory.animation_card(card)s
-            contextToReturn=MessageFactory.attachment(card)
+            contextToReturn=MessageFactory.attachment(CardFactory.animation_card(card))
         elif turn_context.activity.text=='auth':
             card = OAuthCard(
             text="BotFramework OAuth Card",
