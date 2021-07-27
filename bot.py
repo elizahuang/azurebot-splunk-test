@@ -19,11 +19,13 @@ def create_hero_card() -> Attachment:
     file = 'cost.jpg'
     image = open(file, 'rb')
     image_read = image.read()
-    image_64_encode = base64.encodebytes(image_read) #encodestring also works aswell as decodestring
+    # image_64_encode = base64.encodebytes(image_read) #encodestring also works aswell as decodestring
+    image_64_encode = base64.b64encode(image_read).decode() #encodestring also works aswell as decodestring
     images=[
-    CardImage(image_64_encode
-        
-    )],
+            name="cost.jpg",
+            content_type="image/jpg",
+            content_url=f"data:image/jpg;base64,{image_64_encode}",
+    ],
     buttons=[
     CardAction(type=ActionTypes.open_url,title="url1",value="https://www.google.com"),
     CardAction(type=ActionTypes.open_url,title="url2",value="https://www.yahoo.com"),
