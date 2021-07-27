@@ -2,10 +2,12 @@
 # Licensed under the MIT License.
 
 from botbuilder.core import ActivityHandler, TurnContext, CardFactory, MessageFactory
-from botbuilder.schema import ChannelAccount, HeroCard, CardAction, CardImage, ActionTypes, Attachment, Activity, ActivityTypes
+from botbuilder.schema import AnimationCard,MediaUrl, SigninCard,OAuthCard,ChannelAccount, HeroCard, CardAction, CardImage, ActionTypes, Attachment, Activity, ActivityTypes
+from botbuilder.dialogs.choices import Choice
 import requests
 import json,os
 import base64
+
 
 
 def create_hero_card() -> Attachment:
@@ -60,6 +62,51 @@ class MyBot(ActivityHandler):
                 + "This bot will show you different types of Rich Cards. "
                 + "Please type anything to get started."
             )
+        elif turn_context.activity.text == 'animation':
+            card = AnimationCard(
+            media=[MediaUrl(url="http://i.giphy.com/Ki55RUbOV5njy.gif")],
+            title="Microsoft Bot Framework",
+            subtitle="Animation Card", )
+            contextToReturn=CardFactory.animation_card(card)
+        elif turn_context.activity.text=='auth':
+            card = OAuthCard(
+            text="BotFramework OAuth Card",
+            connection_name="OAuth connection", # Replace it with the name of your Azure AD connection.
+            buttons=[
+                CardAction(
+                    type=ActionTypes.signin,
+                    title="Sign in",
+                    value="https://example.org/signin",
+                )
+            ],
+            )
+            contextToReturn=CardFactory.oauth_card(card)
+        elif turn_context.activity.text=='signin': 
+            card = SigninCard(
+            text="BotFramework Sign-in Card",
+            buttons=[
+                CardAction(
+                    type=ActionTypes.signin,
+                    title="Sign-in",
+                    value="https://login.microsoftonline.com",
+                )
+            ],
+        )
+            contextToReturn=CardFactory.signin_card(card)
+        elif turn_context.activity.text=="choice":
+            card_options = [
+            Choice(value="Adaptive Card", synonyms=["adaptive"]),
+            Choice(value="Animation Card", synonyms=["animation"]),
+            Choice(value="Audio Card", synonyms=["audio"]),
+            Choice(value="Hero Card", synonyms=["hero"]),
+            Choice(value="OAuth Card", synonyms=["oauth"]),
+            Choice(value="Receipt Card", synonyms=["receipt"]),
+            Choice(value="Signin Card", synonyms=["signin"]),
+            Choice(value="Thumbnail Card", synonyms=["thumbnail", "thumb"]),
+            Choice(value="Video Card", synonyms=["video"]),
+            Choice(value="All Cards", synonyms=["all"]),]
+
+            contextToReturn=card_options
         else:
             contextToReturn = f"You said '{ turn_context.activity.text }'"
         await turn_context.send_activity(contextToReturn)
