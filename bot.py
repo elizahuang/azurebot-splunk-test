@@ -6,7 +6,7 @@ from botbuilder.schema import ChannelAccount,HeroCard, CardAction, CardImage,Act
 import requests,json, base64
 
 def create_hero_card() -> Attachment:
-    file = 'os.path.join(os.getcwd(), "cost.jpg")
+    file = os.path.join(os.getcwd(), "cost.jpg")
     image = open(file, 'rb')
     image_read = image.read()
     # image_64_encode = base64.encodebytes(image_read) #encodestring also works aswell as decodestring
