@@ -114,7 +114,7 @@ def disconnect(sid):
 
 APP.router.add_post("/api/messages", messages)
 APP.router.add_get('/', index)
-APP.router.add_get('/testSocket', )#socketHandler
+APP.router.add_get('/testSocket',socketHandler )#socketHandler
 
 
 if __name__ == "__main__":
