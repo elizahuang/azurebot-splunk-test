@@ -78,7 +78,7 @@ async def messages(req: Request) -> Response:
     return Response(status=201)
 
 async def socketHandler(request):
-    with open('socketTest.html') as f:
+    with open('socketClient.html') as f:
         return web.Response(text=f.read(), content_type='text/html')
 
 async def index(request):
