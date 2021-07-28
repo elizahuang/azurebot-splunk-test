@@ -104,6 +104,11 @@ async def print_message(sid, message):
     print(message)
     await sio.emit('message', message[::-1])
 
+@sio.on('img')
+async def save_img(data):
+    print(data)
+
+
 @sio.event
 def connect(sid, environ, auth):
     print('connect ', sid)
