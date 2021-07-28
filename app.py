@@ -77,10 +77,13 @@ async def messages(req: Request) -> Response:
         return json_response(data=response.body, status=response.status)
     return Response(status=201)
 
+async def socketHandler(request):
+    with open('socketTest.html') as f:
+        return web.Response(text=f.read(), content_type='text/html')
+
 async def index(request):
     with open('index.html') as f:
         return web.Response(text=f.read(), content_type='text/html')
-
 
 ## creates a new Async Socket IO Server
 sio = socketio.AsyncServer(cors_allowed_origins='*')
@@ -112,7 +115,7 @@ def disconnect(sid):
 
 APP.router.add_post("/api/messages", messages)
 APP.router.add_get('/', index)
-APP.router.add_get('/testSocket', index)
+APP.router.add_get('/testSocket', socketHandler)
 
 
 if __name__ == "__main__":
