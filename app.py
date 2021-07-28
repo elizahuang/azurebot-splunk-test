@@ -113,7 +113,7 @@ def disconnect(sid):
     print('disconnect ', sid)
 
 APP.router.add_post("/api/messages", messages)
-APP.router.add_get('/', index)
+# APP.router.add_get('/', index)
 # APP.router.add_get('/testSocket',socketHandler )#socketHandler
 
 
