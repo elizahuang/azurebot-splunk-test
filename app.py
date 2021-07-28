@@ -102,8 +102,16 @@ async def print_message(sid, message):
     print(message)
     await sio.emit('message', message[::-1])
 
+@sio.event
+def connect(sid, environ, auth):
+    print('connect ', sid)
+
+@sio.event
+def disconnect(sid):
+    print('disconnect ', sid)
+
 APP.router.add_post("/api/messages", messages)
-APP.router.add_get('/', index)
+APP.router.add_get('/testSocket', index)
 
 
 
