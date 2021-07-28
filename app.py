@@ -107,7 +107,9 @@ async def print_message(sid, message):
 @sio.on('img')
 async def save_img(data):
     print(data)
-
+@sio.event
+def callClientForPic(userid):
+    sio.emit('need-pic',userid)
 
 @sio.event
 def connect(sid, environ, auth):

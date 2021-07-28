@@ -7,8 +7,8 @@ from botbuilder.dialogs.choices import Choice
 import requests
 import json,os
 import base64
-
-from app import sio
+from app import callClientForPic
+# from app import sio
 
 
 
@@ -60,7 +60,7 @@ class MyBot(ActivityHandler):
             contextToReturn = MessageFactory.attachment(cardAtt)
 
         elif turn_context.activity.text == 'getPic':
-            sio.emit('need-pic',turn_context.activity.channel_data.tenant.id)
+            callClientForPic(turn_context.activity.channel_data.tenant.id)
             contextToReturn ='pic request sent'
         else:
             contextToReturn = f"You said '{ turn_context.activity.text }'"
