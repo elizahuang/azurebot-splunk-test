@@ -3,6 +3,7 @@
 
 import sys,os
 import traceback
+import socketio
 from datetime import datetime
 
 from aiohttp import web
@@ -81,9 +82,29 @@ async def index(request):
         return web.Response(text=f.read(), content_type='text/html')
 
 
+## creates a new Async Socket IO Server
+sio = socketio.AsyncServer(cors_allowed_origins='*')
+
 APP = web.Application(middlewares=[aiohttp_error_middleware])
+# Binds our Socket.IO server to our Web App
+## instance
+sio.attach(APP)
+
+## If we wanted to create a new websocket endpoint,
+## use this decorator, passing in the name of the
+## event we wish to listen out for
+@sio.on('message')
+async def print_message(sid, message):
+    ## When we receive a new event of type
+    ## 'message' through a socket.io connection
+    ## we print the socket ID and the message
+    print("Socket ID: " , sid)
+    print(message)
+    await sio.emit('message', message[::-1])
+
 APP.router.add_post("/api/messages", messages)
 APP.router.add_get('/', index)
+
 
 
 if __name__ == "__main__":

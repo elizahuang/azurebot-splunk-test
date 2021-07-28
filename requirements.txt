@@ -5,6 +5,7 @@ async-timeout==3.0.1
 asyncio==3.4.3
 attrs==21.2.0
 Babel==2.7.0
+bidict==0.21.2
 binaryornot==0.4.4
 botbuilder-core==4.14.0
 botbuilder-dialogs==4.14.0
@@ -39,6 +40,8 @@ pybase64==1.1.4
 pycparser==2.20
 PyJWT==1.7.1
 python-dateutil==2.8.2
+python-engineio==4.2.0
+python-socketio==5.3.0
 pytz==2021.1
 recognizers-text==1.0.2a2
 recognizers-text-choice==1.0.2a2
