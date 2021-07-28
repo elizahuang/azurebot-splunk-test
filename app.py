@@ -78,8 +78,7 @@ async def messages(req: Request) -> Response:
     return Response(status=201)
 
 async def socketHandler(request):
-    with open('socketClient.html') as f:
-        return web.Response(text=f.read(), content_type='text/html')
+    return web.Response(text="Hi, testing socket??")
 
 async def index(request):
     with open('index.html') as f:
@@ -115,7 +114,7 @@ def disconnect(sid):
 
 APP.router.add_post("/api/messages", messages)
 APP.router.add_get('/', index)
-APP.router.add_get('/testSocket', socketHandler)
+APP.router.add_get('/testSocket', )#socketHandler
 
 
 if __name__ == "__main__":
