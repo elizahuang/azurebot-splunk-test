@@ -7,7 +7,6 @@ from botbuilder.dialogs.choices import Choice
 # import requests,socketio
 import json,os,requests
 import base64
-from app import callClientForPic
 # from app import sio
 
 
