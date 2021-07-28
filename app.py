@@ -17,7 +17,7 @@ from botbuilder.core.integration import aiohttp_error_middleware
 from botbuilder.schema import Activity, ActivityTypes
 
 from bot import MyBot
-from config import DefaultConfig
+from config import DefaultConfig, Sio
 
 CONFIG = DefaultConfig()
 
@@ -58,7 +58,15 @@ async def on_error(context: TurnContext, error: Exception):
 ADAPTER.on_turn_error = on_error
 
 # Create the Bot
-BOT = MyBot()
+
+# ## creates a new Async Socket IO Server
+sio = socketio.AsyncServer(cors_allowed_origins='*')
+BOT = MyBot(sio)
+APP = web.Application(middlewares=[aiohttp_error_middleware])
+BOT.sio.attach(APP)
+# # Binds our Socket.IO server to our Web App
+# ## instance
+# sio.attach(APP)
 
 
 # Listen for incoming requests on /api/messages
@@ -77,24 +85,16 @@ async def messages(req: Request) -> Response:
         return json_response(data=response.body, status=response.status)
     return Response(status=201)
 
-async def socketHandler(request):
-    return web.Response(text="Hi, testing socket??")
+
 
 async def index(request):
     with open('index.html') as f:
         return web.Response(text=f.read(), content_type='text/html')
 
-## creates a new Async Socket IO Server
-sio = socketio.AsyncServer(cors_allowed_origins='*')
 
-APP = web.Application(middlewares=[aiohttp_error_middleware])
-# Binds our Socket.IO server to our Web App
-## instance
-sio.attach(APP)
-
-## If we wanted to create a new websocket endpoint,
-## use this decorator, passing in the name of the
-## event we wish to listen out for
+# ## If we wanted to create a new websocket endpoint,
+# ## use this decorator, passing in the name of the
+# ## event we wish to listen out for
 @sio.on('message')
 async def print_message(sid, message):
     ## When we receive a new event of type
@@ -107,9 +107,6 @@ async def print_message(sid, message):
 @sio.on('img')
 async def save_img(data):
     print(data)
-@sio.event
-def callClientForPic(userid):
-    sio.emit('need-pic',userid)
 
 @sio.event
 def connect(sid, environ, auth):

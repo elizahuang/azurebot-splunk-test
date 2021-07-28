@@ -4,8 +4,8 @@
 from botbuilder.core import ActivityHandler, TurnContext, CardFactory, MessageFactory
 from botbuilder.schema import AnimationCard,MediaUrl, SigninCard,OAuthCard,ChannelAccount, HeroCard, CardAction, CardImage, ActionTypes, Attachment, Activity, ActivityTypes
 from botbuilder.dialogs.choices import Choice
-import requests
-import json,os
+# import requests,socketio
+import json,os,requests
 import base64
 from app import callClientForPic
 # from app import sio
@@ -45,7 +45,8 @@ def create_hero_card() -> Attachment:
 class MyBot(ActivityHandler):
     # See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
     contextToReturn = None
-
+    def __init__(self, sio):
+        self.sio=sio
     async def on_message_activity(self, turn_context: TurnContext):
         print((turn_context.activity))
         # print('activity: ',json.dumps(turn_context.activity, sort_keys=True, indent=4),'\n')
@@ -60,8 +61,8 @@ class MyBot(ActivityHandler):
             contextToReturn = MessageFactory.attachment(cardAtt)
 
         elif turn_context.activity.text == 'getPic':
-            callClientForPic(turn_context.activity.channel_data.tenant.id)
             contextToReturn ='pic request sent'
+            self.sio.emit('need-pic',turn_context.activity.channel_data.tenant.id)
         else:
             contextToReturn = f"You said '{ turn_context.activity.text }'"
         await turn_context.send_activity(contextToReturn)
