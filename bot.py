@@ -101,6 +101,7 @@ class MyBot(ActivityHandler):
     # # This uses the shared Dictionary that the Bot adds conversation references to.
     async def _send_proactive_message(self,dataToSend=None,type=None,userid=None):
         contextToReturn=None
+        print('****userid****',userid)
         if type=='base64img':
             herocard = HeroCard(title="yourPic",
                         images=[CardImage(
