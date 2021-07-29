@@ -108,6 +108,8 @@ class MyBot(ActivityHandler):
             contextToReturn=MessageFactory.attachment(herocard)
         else: 
             contextToReturn = "Testing proactive msg"
+        print('CONVERSATION_REFERENCES.values\n')
+        print(CONVERSATION_REFERENCES.values())
         for conversation_reference in CONVERSATION_REFERENCES.values():
             print('proactive event type: ',type)
             await ADAPTER.continue_conversation(
