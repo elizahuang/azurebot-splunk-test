@@ -108,8 +108,8 @@ async def print_message(sid, message):
 async def save_img(sid, data):
     print(data)
     print(type(data))
-    data=json.loads(data)
-    print('after json loads\n',type(data))
+    # data=json.loads(data)
+    # print('after json loads\n',type(data))
     print('data(data)',data['data'])
 @sio.event
 def connect(sid, environ, auth):
