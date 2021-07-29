@@ -109,6 +109,7 @@ class MyBot(ActivityHandler):
         else: 
             contextToReturn = "Testing proactive msg"
         for conversation_reference in CONVERSATION_REFERENCES.values():
+            print('proactive event type: ',type)
             await ADAPTER.continue_conversation(
                 conversation_reference,
                 lambda turn_context: turn_context.send_activity(contextToReturn),
