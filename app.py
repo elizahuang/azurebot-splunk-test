@@ -16,7 +16,7 @@ from botbuilder.core import (
 from botbuilder.core.integration import aiohttp_error_middleware
 from botbuilder.schema import Activity, ActivityTypes,ConversationReference
 
-from bot import MyBot,ADAPTER,CONFIG
+from bot import MyBot,ADAPTER,CONFIG,CONVERSATION_REFERENCES
 # from config import DefaultConfig
 
 
@@ -61,7 +61,7 @@ ADAPTER.on_turn_error = on_error
 
 # ## creates a new Async Socket IO Server
 sio = socketio.AsyncServer(cors_allowed_origins='*')
-BOT = MyBot(sio)
+BOT = MyBot(sio,CONVERSATION_REFERENCES)
 APP = web.Application(middlewares=[aiohttp_error_middleware])
 BOT.sio.attach(APP)
 # # Binds our Socket.IO server to our Web App
@@ -111,7 +111,7 @@ async def save_img(sid, data):
     # data=json.loads(data)
     # print('after json loads\n',type(data))
     print('data(data)',data['data'])
-    BOT.send_msg_to_user('base64img',data['img'],data['data'])
+    BOT._send_proactive_message(dataToSend=data['img'],type='base64img',userid=data['data'])#data is userid
 @sio.event
 def connect(sid, environ, auth):
     BOT.client_sid=sid

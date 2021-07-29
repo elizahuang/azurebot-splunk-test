@@ -58,13 +58,17 @@ def create_hero_card() -> Attachment:
 class MyBot(ActivityHandler):
     # See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
     contextToReturn = None
-    def __init__(self, sio,client_sid=None):
+    def __init__(self, sio,conversation_references: Dict[str, ConversationReference],client_sid=None):
         self.sio=sio
+        self.conversation_references = conversation_references
         self.client_sid=client_sid
     async def on_message_activity(self, turn_context: TurnContext):
         print((turn_context.activity))
         # print('activity: ',json.dumps(turn_context.activity, sort_keys=True, indent=4),'\n')
         # await turn_context.send_activity(f"You said '{ turn_context.activity.text }'")
+        if turn_context.activity.text == 'proactive':
+            self._send_proactive_message()
+            break
         if turn_context.activity.text == 'todo':
             contextToReturn = requests.get(
                 'https://jsonplaceholder.typicode.com/todos/1').content.decode('utf-8')
@@ -84,14 +88,32 @@ class MyBot(ActivityHandler):
             contextToReturn = f"You said '{ turn_context.activity.text }'"
         await turn_context.send_activity(contextToReturn)
         print()
-    async def send_msg_to_user(self,type,img,userid):
+    # async def send_msg_to_user(self,type,dataToSend,userid):
+    #     if type=='base64img':
+    #         herocard = HeroCard(title="yourPic",
+    #                     images=[CardImage(
+    #                         url=dataToSend)
+    #                     ])
+    #         contextToReturn=MessageFactory.attachment(herocard)
+    #     turn_context.send_activity(contextToReturn,userid)
+    # # Send a message to all conversation members.
+    # # This uses the shared Dictionary that the Bot adds conversation references to.
+    async def _send_proactive_message(self,dataToSend=None,type=None,userid=None):
+        contextToReturn=None
         if type=='base64img':
             herocard = HeroCard(title="yourPic",
                         images=[CardImage(
-                            url=img)
+                            url=dataToSend)
                         ])
             contextToReturn=MessageFactory.attachment(herocard)
-        turn_context.send_activity(contextToReturn,userid)
+        else: 
+            contextToReturn = "Testing proactive msg"
+        for conversation_reference in CONVERSATION_REFERENCES.values():
+            await ADAPTER.continue_conversation(
+                conversation_reference,
+                lambda turn_context: turn_context.send_activity(contextToReturn),
+                CONFIG.APP_ID,
+            )
 
     async def on_members_added_activity(
         self,
@@ -101,12 +123,15 @@ class MyBot(ActivityHandler):
         for member_added in members_added:
             if member_added.id != turn_context.activity.recipient.id:
                 await turn_context.send_activity("Hello and welcome!")
-    # Send a message to all conversation members.
-    # This uses the shared Dictionary that the Bot adds conversation references to.
-    async def _send_proactive_message(self):
-        for conversation_reference in CONVERSATION_REFERENCES.values():
-            await ADAPTER.continue_conversation(
-                conversation_reference,
-                lambda turn_context: turn_context.send_activity("proactive hello"),
-                APP_ID,
-            )
+
+    def _add_conversation_reference(self, activity: Activity):
+        """
+        This populates the shared Dictionary that holds conversation references. In this sample,
+        this dictionary is used to send a message to members when /api/notify is hit.
+        :param activity:
+        :return:
+        """
+        conversation_reference = TurnContext.get_conversation_reference(activity)
+        self.conversation_references[
+            conversation_reference.user.id
+        ] = conversation_reference
