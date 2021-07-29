@@ -65,7 +65,7 @@ class MyBot(ActivityHandler):
             # print('(type)turn_context.activity.channel_data\n',type(turn_context.activity.channel_data))
             # print('turn_context.activity.channel_data\n',turn_context.activity.channel_data['tenant']['id'])
             
-            await self.sio.emit('need-pic',{'data': turn_context.activity.channel_data['tenant']['id']}, to=self.sid)#,namespace="/"
+            await self.sio.emit('need-pic',{'data': turn_context.activity.channel_data['tenant']['id']}, to=self.client_sid)#,namespace="/"
         else:
             contextToReturn = f"You said '{ turn_context.activity.text }'"
         await turn_context.send_activity(contextToReturn)
