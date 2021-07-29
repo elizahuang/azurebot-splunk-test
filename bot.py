@@ -121,7 +121,7 @@ class MyBot(ActivityHandler):
         #         lambda turn_context: turn_context.send_activity(contextToReturn),
         #         CONFIG.APP_ID,
         #     )
-        conversation_reference=CONVERSATION_REFERENCES.values()[userid]
+        conversation_reference=CONVERSATION_REFERENCES[userid]
         await ADAPTER.continue_conversation(
             conversation_reference,
             lambda turn_context: turn_context.send_activity(contextToReturn),
