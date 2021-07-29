@@ -67,8 +67,8 @@ class MyBot(ActivityHandler):
         # print('activity: ',json.dumps(turn_context.activity, sort_keys=True, indent=4),'\n')
         # await turn_context.send_activity(f"You said '{ turn_context.activity.text }'")
         if turn_context.activity.text == 'proactive':
-            self._add_conversation_reference(turn_context.activity)
-            await self._send_proactive_message()
+            userid=self._add_conversation_reference(turn_context.activity)
+            await self._send_proactive_message(userid=userid)
             
         if turn_context.activity.text == 'todo':
             contextToReturn = requests.get(
@@ -83,8 +83,9 @@ class MyBot(ActivityHandler):
             contextToReturn ='pic request sent'
             # print('(type)turn_context.activity.channel_data\n',type(turn_context.activity.channel_data))
             # print('turn_context.activity.channel_data\n',turn_context.activity.channel_data['tenant']['id'])
-            self._add_conversation_reference(turn_context.activity)
-            await self.sio.emit('need-pic',{'data': turn_context.activity.channel_data['tenant']['id']}, to=self.client_sid)#,namespace="/"
+            userid=self._add_conversation_reference(turn_context.activity)
+            # turn_context.activity.channel_data['tenant']['id']
+            await self.sio.emit('need-pic',{'data': userid}, to=self.client_sid)#,namespace="/"
         else:
             contextToReturn = f"You said '{ turn_context.activity.text }'"
         await turn_context.send_activity(contextToReturn)
@@ -101,6 +102,7 @@ class MyBot(ActivityHandler):
     # # This uses the shared Dictionary that the Bot adds conversation references to.
     async def _send_proactive_message(self,dataToSend=None,type=None,userid=None):
         contextToReturn=None
+        print('***********tenant_id**********',turn_context.activity.channel_data['tenant']['id'])
         print('****userid****',userid)
         if type=='base64img':
             herocard = HeroCard(title="yourPic",
@@ -147,3 +149,4 @@ class MyBot(ActivityHandler):
         self.conversation_references[
             conversation_reference.user.id
         ] = conversation_reference
+        return conversation_reference.user.id
