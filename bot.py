@@ -111,20 +111,22 @@ class MyBot(ActivityHandler):
         else: 
             contextToReturn = "Testing proactive msg"
         print('CONVERSATION_REFERENCES.values\n')
-        print(CONVERSATION_REFERENCES.values())
-        print('********CONVERSATION_REFERENCES.values type*******',type(CONVERSATION_REFERENCES.values()))
-        for conversation_reference in CONVERSATION_REFERENCES.values():
-            print('proactive event type: ',type)
-            await ADAPTER.continue_conversation(
-                conversation_reference,
-                lambda turn_context: turn_context.send_activity(contextToReturn),
-                CONFIG.APP_ID,
-            )
-            # await ADAPTER.continue_conversation(
-            #     userid,
-            #     lambda turn_context: turn_context.send_activity(contextToReturn),
-            #     CONFIG.APP_ID,
-            # )
+        # print(CONVERSATION_REFERENCES.values())
+        # print('********CONVERSATION_REFERENCES.values type*******',type(CONVERSATION_REFERENCES.values()))
+        
+        # for conversation_reference in CONVERSATION_REFERENCES.values():
+        #     print('proactive event type: ',type)
+        #     await ADAPTER.continue_conversation(
+        #         conversation_reference,
+        #         lambda turn_context: turn_context.send_activity(contextToReturn),
+        #         CONFIG.APP_ID,
+        #     )
+        conversation_reference=CONVERSATION_REFERENCES.values()[userid]
+        await ADAPTER.continue_conversation(
+            conversation_reference,
+            lambda turn_context: turn_context.send_activity(contextToReturn),
+            CONFIG.APP_ID,
+        )
     async def on_members_added_activity(
         self,
         members_added: ChannelAccount,
