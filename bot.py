@@ -44,8 +44,9 @@ def create_hero_card() -> Attachment:
 class MyBot(ActivityHandler):
     # See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
     contextToReturn = None
-    def __init__(self, sio):
+    def __init__(self, sio,client_sid=None):
         self.sio=sio
+        self.client_sid=client_sid
     async def on_message_activity(self, turn_context: TurnContext):
         print((turn_context.activity))
         # print('activity: ',json.dumps(turn_context.activity, sort_keys=True, indent=4),'\n')
@@ -64,7 +65,7 @@ class MyBot(ActivityHandler):
             # print('(type)turn_context.activity.channel_data\n',type(turn_context.activity.channel_data))
             # print('turn_context.activity.channel_data\n',turn_context.activity.channel_data['tenant']['id'])
             
-            self.sio.emit('need-pic',turn_context.activity.channel_data['tenant']['id'])
+            await self.sio.emit('need-pic',{'data': turn_context.activity.channel_data['tenant']['id']}, to=self.sid)#,namespace="/"
         else:
             contextToReturn = f"You said '{ turn_context.activity.text }'"
         await turn_context.send_activity(contextToReturn)

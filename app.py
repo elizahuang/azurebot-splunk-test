@@ -110,6 +110,7 @@ async def save_img(sid, data):
 
 @sio.event
 def connect(sid, environ, auth):
+    BOT.client_sid=sid
     print('connect ', sid)
 
 @sio.event
