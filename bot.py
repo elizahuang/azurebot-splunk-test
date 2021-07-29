@@ -61,7 +61,10 @@ class MyBot(ActivityHandler):
 
         elif turn_context.activity.text == 'getPic':
             contextToReturn ='pic request sent'
-            self.sio.emit('need-pic',turn_context.activity.channel_data.tenant.id)
+            print('(type)turn_context.activity.channel_data\n',type(turn_context.activity.channel_data))
+            print('turn_context.activity.channel_data\n',turn_context.activity.channel_data)
+            
+            # self.sio.emit('need-pic',turn_context.activity.channel_data['tenant.id])
         else:
             contextToReturn = f"You said '{ turn_context.activity.text }'"
         await turn_context.send_activity(contextToReturn)
