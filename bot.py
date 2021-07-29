@@ -67,6 +67,7 @@ class MyBot(ActivityHandler):
         # print('activity: ',json.dumps(turn_context.activity, sort_keys=True, indent=4),'\n')
         # await turn_context.send_activity(f"You said '{ turn_context.activity.text }'")
         if turn_context.activity.text == 'proactive':
+            self._add_conversation_reference(turn_context.activity)
             await self._send_proactive_message()
             
         if turn_context.activity.text == 'todo':
@@ -82,7 +83,7 @@ class MyBot(ActivityHandler):
             contextToReturn ='pic request sent'
             # print('(type)turn_context.activity.channel_data\n',type(turn_context.activity.channel_data))
             # print('turn_context.activity.channel_data\n',turn_context.activity.channel_data['tenant']['id'])
-            
+            self._add_conversation_reference(turn_context.activity)
             await self.sio.emit('need-pic',{'data': turn_context.activity.channel_data['tenant']['id']}, to=self.client_sid)#,namespace="/"
         else:
             contextToReturn = f"You said '{ turn_context.activity.text }'"
