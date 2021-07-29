@@ -16,8 +16,8 @@ from botbuilder.core import (
 from botbuilder.core.integration import aiohttp_error_middleware
 from botbuilder.schema import Activity, ActivityTypes,ConversationReference
 
-from bot import MyBot,ADAPTER
-from config import DefaultConfig
+from bot import MyBot,ADAPTER,CONFIG
+# from config import DefaultConfig
 
 
 
