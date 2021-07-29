@@ -113,12 +113,16 @@ class MyBot(ActivityHandler):
         print(CONVERSATION_REFERENCES.values())
         for conversation_reference in CONVERSATION_REFERENCES.values():
             print('proactive event type: ',type)
+            # await ADAPTER.continue_conversation(
+            #     conversation_reference,
+            #     lambda turn_context: turn_context.send_activity(contextToReturn),
+            #     CONFIG.APP_ID,
+            # )
             await ADAPTER.continue_conversation(
-                conversation_reference,
+                userid,
                 lambda turn_context: turn_context.send_activity(contextToReturn),
                 CONFIG.APP_ID,
             )
-
     async def on_members_added_activity(
         self,
         members_added: ChannelAccount,
