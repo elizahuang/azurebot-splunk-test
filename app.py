@@ -1,7 +1,7 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
-import sys,os
+import sys,os,json
 import traceback
 import socketio
 from datetime import datetime
@@ -107,7 +107,10 @@ async def print_message(sid, message):
 @sio.on('img')
 async def save_img(sid, data):
     print(data)
-
+    print(type(data))
+    data=json.loads(data)
+    print('after json loads\n',type(data))
+    print('data(data)',data['data'])
 @sio.event
 def connect(sid, environ, auth):
     BOT.client_sid=sid
