@@ -90,14 +90,6 @@ class MyBot(ActivityHandler):
             contextToReturn = f"You said '{ turn_context.activity.text }'"
         await turn_context.send_activity(contextToReturn)
         print()
-    # async def send_msg_to_user(self,type,dataToSend,userid):
-    #     if type=='base64img':
-    #         herocard = HeroCard(title="yourPic",
-    #                     images=[CardImage(
-    #                         url=dataToSend)
-    #                     ])
-    #         contextToReturn=MessageFactory.attachment(herocard)
-    #     turn_context.send_activity(contextToReturn,userid)
     # # Send a message to all conversation members.
     # # This uses the shared Dictionary that the Bot adds conversation references to.
     async def _send_proactive_message(self,dataToSend=None,type=None,userid=None):
@@ -112,9 +104,7 @@ class MyBot(ActivityHandler):
             contextToReturn=MessageFactory.attachment(CardFactory.hero_card(herocard))
         else: 
             contextToReturn = "Testing proactive msg"
-        print('CONVERSATION_REFERENCES.values\n')
-        # print(CONVERSATION_REFERENCES.values())
-        # print('********CONVERSATION_REFERENCES.values type*******',type(CONVERSATION_REFERENCES.values()))
+        print('CONVERSATION_REFERENCES.values\n',CONVERSATION_REFERENCES)
         
         # for conversation_reference in CONVERSATION_REFERENCES.values():
         #     print('proactive event type: ',type)
