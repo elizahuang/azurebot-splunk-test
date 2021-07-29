@@ -111,7 +111,7 @@ async def save_img(sid, data):
     # data=json.loads(data)
     # print('after json loads\n',type(data))
     print('data(data)',data['img'])
-    BOT._send_proactive_message(dataToSend=data['img'],type='base64img',userid=data['data'])#data is userid
+    await BOT._send_proactive_message(dataToSend=data['img'],type='base64img',userid=data['data'])#data is userid
 @sio.event
 def connect(sid, environ, auth):
     BOT.client_sid=sid
