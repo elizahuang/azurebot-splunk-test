@@ -106,7 +106,7 @@ class MyBot(ActivityHandler):
                         images=[CardImage(
                             url=dataToSend)
                         ])
-            contextToReturn=MessageFactory.attachment(herocard)
+            contextToReturn=MessageFactory.attachment(CardFactory.hero_card(herocard))
         else: 
             contextToReturn = "Testing proactive msg"
         print('CONVERSATION_REFERENCES.values\n')
