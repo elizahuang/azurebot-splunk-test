@@ -1,14 +1,28 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
-from botbuilder.core import ActivityHandler, TurnContext, CardFactory, MessageFactory
-from botbuilder.schema import AnimationCard,MediaUrl, SigninCard,OAuthCard,ChannelAccount, HeroCard, CardAction, CardImage, ActionTypes, Attachment, Activity, ActivityTypes
+from botbuilder.core import ActivityHandler, TurnContext, CardFactory, MessageFactory, BotFrameworkAdapterSettings,BotFrameworkAdapter
+from botbuilder.schema import AnimationCard,MediaUrl, SigninCard,OAuthCard,ChannelAccount, HeroCard, CardAction, CardImage, ActionTypes, Attachment, Activity, ActivityTypes,ConversationReference
 from botbuilder.dialogs.choices import Choice
 # import requests,socketio
 import json,os,requests
 import base64
 # from app import sio
+from typing import Dict
+from config import DefaultConfig
 
+CONFIG = DefaultConfig()
+
+# Create adapter.
+# See https://aka.ms/about-bot-adapter to learn more about how bots work.
+SETTINGS = BotFrameworkAdapterSettings(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
+ADAPTER = BotFrameworkAdapter(SETTINGS)
+
+
+
+# Create a shared dictionary.  The Bot will add conversation references when users
+# join the conversation and send messages.
+CONVERSATION_REFERENCES: Dict[str, ConversationReference] = dict()
 
 
 def create_hero_card() -> Attachment:
@@ -70,6 +84,14 @@ class MyBot(ActivityHandler):
             contextToReturn = f"You said '{ turn_context.activity.text }'"
         await turn_context.send_activity(contextToReturn)
         print()
+    async def send_msg_to_user(self,type,img,userid):
+        if type=='base64img':
+            herocard = HeroCard(title="yourPic",
+                        images=[CardImage(
+                            url=img)
+                        ])
+            contextToReturn=MessageFactory.attachment(herocard)
+        turn_context.send_activity(contextToReturn,userid)
 
     async def on_members_added_activity(
         self,
@@ -79,3 +101,12 @@ class MyBot(ActivityHandler):
         for member_added in members_added:
             if member_added.id != turn_context.activity.recipient.id:
                 await turn_context.send_activity("Hello and welcome!")
+    # Send a message to all conversation members.
+    # This uses the shared Dictionary that the Bot adds conversation references to.
+    async def _send_proactive_message(self):
+        for conversation_reference in CONVERSATION_REFERENCES.values():
+            await ADAPTER.continue_conversation(
+                conversation_reference,
+                lambda turn_context: turn_context.send_activity("proactive hello"),
+                APP_ID,
+            )

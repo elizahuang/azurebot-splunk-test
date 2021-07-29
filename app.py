@@ -14,17 +14,11 @@ from botbuilder.core import (
     BotFrameworkAdapter,
 )
 from botbuilder.core.integration import aiohttp_error_middleware
-from botbuilder.schema import Activity, ActivityTypes
+from botbuilder.schema import Activity, ActivityTypes,ConversationReference
 
-from bot import MyBot
+from bot import MyBot,ADAPTER
 from config import DefaultConfig
 
-CONFIG = DefaultConfig()
-
-# Create adapter.
-# See https://aka.ms/about-bot-adapter to learn more about how bots work.
-SETTINGS = BotFrameworkAdapterSettings(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
-ADAPTER = BotFrameworkAdapter(SETTINGS)
 
 
 # Catch-all for errors.
@@ -54,8 +48,14 @@ async def on_error(context: TurnContext, error: Exception):
         # Send a trace activity, which will be displayed in Bot Framework Emulator
         await context.send_activity(trace_activity)
 
+# CONFIG = DefaultConfig()
 
+# # Create adapter.
+# # See https://aka.ms/about-bot-adapter to learn more about how bots work.
+# SETTINGS = BotFrameworkAdapterSettings(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
+# ADAPTER = BotFrameworkAdapter(SETTINGS)
 ADAPTER.on_turn_error = on_error
+
 
 # Create the Bot
 
@@ -111,6 +111,7 @@ async def save_img(sid, data):
     # data=json.loads(data)
     # print('after json loads\n',type(data))
     print('data(data)',data['data'])
+    BOT.send_msg_to_user('base64img',data['img'],data['data'])
 @sio.event
 def connect(sid, environ, auth):
     BOT.client_sid=sid
