@@ -67,8 +67,8 @@ class MyBot(ActivityHandler):
         # print('activity: ',json.dumps(turn_context.activity, sort_keys=True, indent=4),'\n')
         # await turn_context.send_activity(f"You said '{ turn_context.activity.text }'")
         if turn_context.activity.text == 'proactive':
-            self._send_proactive_message()
-            return
+            await self._send_proactive_message()
+            
         if turn_context.activity.text == 'todo':
             contextToReturn = requests.get(
                 'https://jsonplaceholder.typicode.com/todos/1').content.decode('utf-8')
