@@ -108,10 +108,9 @@ async def print_message(sid, message):
 async def save_img(sid, data):
     print(data)
     print(type(data))
-    # data=json.loads(data)
-    # print('after json loads\n',type(data))
     print('data(data)',data['img'])
     await BOT._send_proactive_message(dataToSend=data['img'],type='base64img',userid=data['data'])#data is userid
+
 @sio.event
 def connect(sid, environ, auth):
     BOT.client_sid=sid
@@ -123,7 +122,7 @@ def disconnect(sid):
 
 APP.router.add_post("/api/messages", messages)
 APP.router.add_get('/', index)
-# APP.router.add_get('/testSocket',socketHandler )#socketHandler
+
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@
 # Licensed under the MIT License.
 
 from botbuilder.core import ActivityHandler, TurnContext, CardFactory, MessageFactory, BotFrameworkAdapterSettings,BotFrameworkAdapter
-from botbuilder.schema import AnimationCard,MediaUrl, SigninCard,OAuthCard,ChannelAccount, HeroCard, CardAction, CardImage, ActionTypes, Attachment, Activity, ActivityTypes,ConversationReference
+from botbuilder.schema import AnimationCard,MediaUrl, SigninCard,OAuthCard,ChannelAccount, HeroCard, CardAction, CardImage, ActionTypes, Attachment, Activity, ActivityTypes,ConversationReference, SuggestedActions
 from botbuilder.dialogs.choices import Choice
 # import requests,socketio
 import json,os,requests
@@ -63,6 +63,7 @@ class MyBot(ActivityHandler):
         self.conversation_references = conversation_references
         self.client_sid=client_sid
     async def on_message_activity(self, turn_context: TurnContext):
+        print('***********dealing with msg event**********')
         print((turn_context.activity))
         # print('activity: ',json.dumps(turn_context.activity, sort_keys=True, indent=4),'\n')
         # await turn_context.send_activity(f"You said '{ turn_context.activity.text }'")
@@ -89,6 +90,7 @@ class MyBot(ActivityHandler):
         else:
             contextToReturn = f"You said '{ turn_context.activity.text }'"
         await turn_context.send_activity(contextToReturn)
+        return await self._send_suggested_actions(turn_context)
         print()
     # # Send a message to all conversation members.
     # # This uses the shared Dictionary that the Bot adds conversation references to.
@@ -119,6 +121,8 @@ class MyBot(ActivityHandler):
             lambda turn_context: turn_context.send_activity(contextToReturn),
             CONFIG.APP_ID,
         )
+        return await self._send_suggested_actions(conversation_reference)
+
     async def on_members_added_activity(
         self,
         members_added: ChannelAccount,
@@ -127,6 +131,7 @@ class MyBot(ActivityHandler):
         for member_added in members_added:
             if member_added.id != turn_context.activity.recipient.id:
                 await turn_context.send_activity("Hello and welcome!")
+        return await self._send_suggested_actions(turn_context)
 
     def _add_conversation_reference(self, activity: Activity):
         """
@@ -136,7 +141,40 @@ class MyBot(ActivityHandler):
         :return:
         """
         conversation_reference = TurnContext.get_conversation_reference(activity)
+        print('*************conversation_ref to json************\n',json.dumps(conversation_reference.__dict__))
+        print('*************conversation_ref to json************')
         self.conversation_references[
             conversation_reference.user.id
         ] = conversation_reference
         return conversation_reference.user.id
+
+    async def _send_suggested_actions(self, turn_context: TurnContext):
+        reply = MessageFactory.text("")
+
+        reply.suggested_actions = SuggestedActions(
+            actions=[
+                CardAction(
+                    title="CPU Info for Host",
+                    type=ActionTypes.im_back,
+                    value="cpu_info",
+                    image="https://via.placeholder.com/20/FF0000?text=R",
+                    image_alt_text="CPU Info for Host",
+                ),
+                CardAction(
+                    title="Mem Info for Host",
+                    type=ActionTypes.im_back,
+                    value="mem_info",
+                    image="https://via.placeholder.com/20/FFFF00?text=Y",
+                    image_alt_text="Mem Info for Host",
+                ),
+                # CardAction(
+                #     title="Blue",
+                #     type=ActionTypes.im_back,
+                #     value="Blue",
+                #     image="https://via.placeholder.com/20/0000FF?text=B",
+                #     image_alt_text="B",
+                # ),
+            ]
+        )
+
+        return await turn_context.send_activity(reply)
