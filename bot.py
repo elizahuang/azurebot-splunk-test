@@ -289,4 +289,4 @@ class MyBot(ActivityHandler):
                 #     image="https://via.placeholder.com/20/0000FF?text=B",
                 #     image_alt_text="B",
                 # ),
-        return await turn_context.send_activity(reply)
+        await turn_context.send_activity(reply)
