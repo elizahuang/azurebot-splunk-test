@@ -264,6 +264,7 @@ class MyBot(ActivityHandler):
     async def _send_suggested_actions(self, turn_context: TurnContext):
         reply = MessageFactory.suggested_actions([
                 CardAction(
+                    displayText="CPU Info for Host",
                     title="CPU Info for Host",
                     type=ActionTypes.im_back,
                     value="cpu_info",
@@ -271,6 +272,7 @@ class MyBot(ActivityHandler):
                     # image_alt_text="CPU Info for Host",
                 ),
                 CardAction(
+                    displayText="Mem Info for Host",
                     title="Mem Info for Host",
                     type=ActionTypes.im_back,
                     value="mem_info",
