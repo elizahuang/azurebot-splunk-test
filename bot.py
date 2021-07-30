@@ -262,7 +262,7 @@ class MyBot(ActivityHandler):
         return conversation_reference.user.id
 
     async def _send_suggested_actions(self, turn_context: TurnContext):
-        reply = CardFactory.thumbnail_card.ThumbnailCard(
+        reply = ThumbnailCard(
             title="Hi, here are the options.",
             subtitle="Your bots — wherever your users are talking",
             text="Build and connect intelligent bots to interact with your users naturally wherever"
@@ -298,4 +298,4 @@ class MyBot(ActivityHandler):
                 #     image="https://via.placeholder.com/20/0000FF?text=B",
                 #     image_alt_text="B",
                 # ),
-        await turn_context.send_activity(reply)
+        await turn_context.send_activity(CardFactory.thumbnail_card(reply))
