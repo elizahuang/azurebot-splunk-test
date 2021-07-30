@@ -149,9 +149,7 @@ class MyBot(ActivityHandler):
         return conversation_reference.user.id
 
     async def _send_suggested_actions(self, turn_context: TurnContext):
-        reply = MessageFactory.text("Hi, here are the options.")
-
-        reply.suggested_actions = SuggestedActions(
+        reply = MessageFactory.suggested_actions(
             actions=[
                 CardAction(
                     title="CPU Info for Host",
@@ -166,7 +164,7 @@ class MyBot(ActivityHandler):
                     value="mem_info",
                     image="https://via.placeholder.com/20/FFFF00?text=Y",
                     # image_alt_text="Mem Info for Host",
-                ),
+                ),"Hi, here are the options."
             ]
         )
 
