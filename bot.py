@@ -2,7 +2,7 @@
 # Licensed under the MIT License.
 
 from botbuilder.core import ActivityHandler, TurnContext, CardFactory, MessageFactory, BotFrameworkAdapterSettings,BotFrameworkAdapter
-from botbuilder.schema import AnimationCard,MediaUrl, SigninCard,OAuthCard,ChannelAccount, HeroCard, CardAction, CardImage, ActionTypes, Attachment, Activity, ActivityTypes,ConversationReference, SuggestedActions
+from botbuilder.schema import AnimationCard,MediaUrl, SigninCard,OAuthCard,ChannelAccount, HeroCard, CardAction, CardImage, ActionTypes, Attachment, Activity, ActivityTypes,ConversationReference, SuggestedActions,ThumbnailCard
 from botbuilder.dialogs.choices import Choice
 # import requests,socketio
 import json,os,requests
@@ -262,7 +262,17 @@ class MyBot(ActivityHandler):
         return conversation_reference.user.id
 
     async def _send_suggested_actions(self, turn_context: TurnContext):
-        reply = MessageFactory.suggested_actions([
+        reply = ThumbnailCard(
+            title="Hi, here are the options.",
+            subtitle="Your bots — wherever your users are talking",
+            text="Build and connect intelligent bots to interact with your users naturally wherever"
+            " they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.",
+            images=[
+                CardImage(
+                    url="https://ct.yimg.com/xd/api/res/1.2/VhPkyLMc5NAyXyGfjLgA5g--/YXBwaWQ9eXR3YXVjdGlvbnNlcnZpY2U7aD01ODU7cT04NTtyb3RhdGU9YXV0bzt3PTcwMA--/https://s.yimg.com/ob/image/82cbd7d4-5802-4b2b-99bd-690512b34730.jpg"
+                )
+            ]
+            ,buttons=[
                 CardAction(
                     displayText="CPU Info for Host",
                     title="CPU Info for Host",
@@ -278,8 +288,7 @@ class MyBot(ActivityHandler):
                     value="mem_info",
                     # image="https://via.placeholder.com/20/FFFF00?text=Y",
                     # image_alt_text="Mem Info for Host",
-                )],"Hi, here are the options.")
-            
+                )])            
         
 
                 # CardAction(
