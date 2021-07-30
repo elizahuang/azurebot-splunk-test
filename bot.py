@@ -158,14 +158,14 @@ class MyBot(ActivityHandler):
                     type=ActionTypes.im_back,
                     value="cpu_info",
                     image="https://via.placeholder.com/20/FF0000?text=R",
-                    image_alt_text="CPU Info for Host",
+                    # image_alt_text="CPU Info for Host",
                 ),
                 CardAction(
                     title="Mem Info for Host",
                     type=ActionTypes.im_back,
                     value="mem_info",
                     image="https://via.placeholder.com/20/FFFF00?text=Y",
-                    image_alt_text="Mem Info for Host",
+                    # image_alt_text="Mem Info for Host",
                 ),
             ]
         )
