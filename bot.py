@@ -149,7 +149,7 @@ class MyBot(ActivityHandler):
         return conversation_reference.user.id
 
     async def _send_suggested_actions(self, turn_context: TurnContext):
-        reply = MessageFactory.text("")
+        reply = MessageFactory.text("Hi, here are the options.")
 
         reply.suggested_actions = SuggestedActions(
             actions=[
