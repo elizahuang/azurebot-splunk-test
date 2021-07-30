@@ -167,6 +167,9 @@ class MyBot(ActivityHandler):
                     image="https://via.placeholder.com/20/FFFF00?text=Y",
                     image_alt_text="Mem Info for Host",
                 ),
+            ]
+        )
+
                 # CardAction(
                 #     title="Blue",
                 #     type=ActionTypes.im_back,
@@ -174,7 +177,4 @@ class MyBot(ActivityHandler):
                 #     image="https://via.placeholder.com/20/0000FF?text=B",
                 #     image_alt_text="B",
                 # ),
-            ]
-        )
-
         return await turn_context.send_activity(reply)
