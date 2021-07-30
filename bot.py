@@ -263,10 +263,8 @@ class MyBot(ActivityHandler):
 
     async def _send_suggested_actions(self, turn_context: TurnContext):
         reply = ThumbnailCard(
-            title="Hi, here are the options.",
-            subtitle="Your bots — wherever your users are talking",
-            text="Build and connect intelligent bots to interact with your users naturally wherever"
-            " they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.",
+            title="option list",
+            text="Welcome for using the services",
             # images=[
             #     CardImage(
             #         url="https://ct.yimg.com/xd/api/res/1.2/VhPkyLMc5NAyXyGfjLgA5g--/YXBwaWQ9eXR3YXVjdGlvbnNlcnZpY2U7aD01ODU7cT04NTtyb3RhdGU9YXV0bzt3PTcwMA--/https://s.yimg.com/ob/image/82cbd7d4-5802-4b2b-99bd-690512b34730.jpg"
@@ -290,12 +288,4 @@ class MyBot(ActivityHandler):
                     # image_alt_text="Mem Info for Host",
                 )])         
         
-
-                # CardAction(
-                #     title="Blue",
-                #     type=ActionTypes.im_back,
-                #     value="Blue",
-                #     image="https://via.placeholder.com/20/0000FF?text=B",
-                #     image_alt_text="B",
-                # ),
         await turn_context.send_activity(MessageFactory.attachment(CardFactory.thumbnail_card(reply)))
