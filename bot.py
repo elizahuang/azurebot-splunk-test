@@ -174,7 +174,7 @@ class MyBot(ActivityHandler):
         self.conversation_references = conversation_references
         self.client_sid=client_sid
     async def on_message_activity(self, turn_context: TurnContext):
-        print('***********dealing with msg event**********')
+        print('***********dealing with msg event**********')  ## submit btn is also msg activity
         print((turn_context.activity))
         # print('activity: ',json.dumps(turn_context.activity, sort_keys=True, indent=4),'\n')
         # await turn_context.send_activity(f"You said '{ turn_context.activity.text }'")
@@ -276,9 +276,9 @@ class MyBot(ActivityHandler):
                     value="mem_info",
                     image="https://via.placeholder.com/20/FFFF00?text=Y",
                     # image_alt_text="Mem Info for Host",
-                ),"Hi, here are the options."
-            ]
-        )
+                )],"Hi, here are the options.")
+            
+        
 
                 # CardAction(
                 #     title="Blue",
