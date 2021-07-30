@@ -17,12 +17,123 @@ CONFIG = DefaultConfig()
 # See https://aka.ms/about-bot-adapter to learn more about how bots work.
 SETTINGS = BotFrameworkAdapterSettings(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
 ADAPTER = BotFrameworkAdapter(SETTINGS)
-
-
-
 # Create a shared dictionary.  The Bot will add conversation references when users
 # join the conversation and send messages.
 CONVERSATION_REFERENCES: Dict[str, ConversationReference] = dict()
+
+adapCard={
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "body": [
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Publish Adaptive Card schema",
+          "weight": "bolder",
+          "size": "medium"
+        },
+        {
+          "type": "ColumnSet",
+          "columns": [
+            {
+              "type": "Column",
+              "width": "auto",
+              "items": [
+                {
+                  "type": "Image",
+                  "url": "https://pbs.twimg.com/profile_images/3647943215/d7f12830b3c17a5a9e4afcc370e3a37e_400x400.jpeg",
+                  "size": "small",
+                  "style": "person"
+                }
+              ]
+            },
+            {
+              "type": "Column",
+              "width": "stretch",
+              "items": [
+                {
+                  "type": "TextBlock",
+                  "text": "Matt Hidinger",
+                  "weight": "bolder",
+                  "wrap": True
+                },
+                {
+                  "type": "TextBlock",
+                  "spacing": "none",
+                  "text": "Created {{DATE(2017-02-14T06:08:39Z, SHORT)}}",
+                  "isSubtle": True,
+                  "wrap": True
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Container",
+      "items": [
+        {
+          "type": "TextBlock",
+          "text": "Now that we have defined the main rules and features of the format, we need to produce a schema and publish it to GitHub. The schema will be the starting point of our reference documentation.",
+          "wrap": True
+        },
+        {
+          "type": "FactSet",
+          "facts": [
+            {
+              "title": "Board:",
+              "value": "Adaptive Card"
+            },
+            {
+              "title": "List:",
+              "value": "Backlog"
+            },
+            {
+              "title": "Assigned to:",
+              "value": "Matt Hidinger"
+            },
+            {
+              "title": "Due date:",
+              "value": "Not set"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.ShowCard",
+      "title": "Comment",
+      "card": {
+        "type": "AdaptiveCard",
+        "body": [
+          {
+            "type": "Input.Text",
+            "id": "comment",
+            "isMultiline": True,
+            "placeholder": "Enter your comment"
+          }
+        ],
+        "actions": [
+          {
+            "type": "Action.Submit",
+            "title": "OK"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "View",
+      "url": "https://adaptivecards.io"
+    }
+  ]
+}
 
 
 def create_hero_card() -> Attachment:
@@ -79,7 +190,9 @@ class MyBot(ActivityHandler):
         elif turn_context.activity.text == 'card':
             cardAtt = create_hero_card()
             contextToReturn = MessageFactory.attachment(cardAtt)
-
+        elif turn_context.activity.text=='adaptive':
+            contextToReturn =MessageFactory.attachment(Attachment(content_type='application/vnd.microsoft.card.adaptive',
+                                      content=adapCard))
         elif turn_context.activity.text == 'getPic':
             contextToReturn ='pic request sent'
             # print('(type)turn_context.activity.channel_data\n',type(turn_context.activity.channel_data))
@@ -141,8 +254,8 @@ class MyBot(ActivityHandler):
         :return:
         """
         conversation_reference = TurnContext.get_conversation_reference(activity)
-        print('*************conversation_ref to json************\n',json.dumps(conversation_reference.__dict__))
-        print('*************conversation_ref to json************')
+        # print('*************conversation_ref to json************\n',json.dumps(conversation_reference.__dict__))
+        # print('*************conversation_ref to json************')
         self.conversation_references[
             conversation_reference.user.id
         ] = conversation_reference
