@@ -262,8 +262,7 @@ class MyBot(ActivityHandler):
         return conversation_reference.user.id
 
     async def _send_suggested_actions(self, turn_context: TurnContext):
-        reply = MessageFactory.suggested_actions(
-            actions=[
+        reply = MessageFactory.suggested_actions([
                 CardAction(
                     title="CPU Info for Host",
                     type=ActionTypes.im_back,
