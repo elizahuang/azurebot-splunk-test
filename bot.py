@@ -298,4 +298,4 @@ class MyBot(ActivityHandler):
                 #     image="https://via.placeholder.com/20/0000FF?text=B",
                 #     image_alt_text="B",
                 # ),
-        await turn_context.send_activity(CardFactory.thumbnail_card(reply))
+        await turn_context.send_activity(MessageFactory.attachment(CardFactory.thumbnail_card(reply)))
