@@ -272,7 +272,7 @@ class MyBot(ActivityHandler):
             #         url="https://ct.yimg.com/xd/api/res/1.2/VhPkyLMc5NAyXyGfjLgA5g--/YXBwaWQ9eXR3YXVjdGlvbnNlcnZpY2U7aD01ODU7cT04NTtyb3RhdGU9YXV0bzt3PTcwMA--/https://s.yimg.com/ob/image/82cbd7d4-5802-4b2b-99bd-690512b34730.jpg"
             #     )
             # ]
-            ,buttons=[
+            buttons=[
                 CardAction(
                     displayText="CPU Info for Host",
                     title="CPU Info for Host",
