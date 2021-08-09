@@ -110,8 +110,8 @@ class MyBot(ActivityHandler):
             elif turn_context.activity.value['submit_type']=='chooseDetail_HostInfo':
               print(turn_context.activity.value)
               variableToPass=turn_context.activity.value
-              variableToPass["start_time"]=variableToPass["start_date"]+" "+variableToPass["choose_start_hour"]
-              variableToPass["end_time"]=variableToPass["end_date"]+" "+variableToPass["choose_end_hour"]
+              variableToPass["start_time"]=variableToPass["start_date"]+"T"+variableToPass["choose_start_hour"]
+              variableToPass["end_time"]=variableToPass["end_date"]+"T"+variableToPass["choose_end_hour"]
               variableToPass["userid"]=userid
             #   variableToPass["type"]="picForDB"
               del variableToPass["start_date"]
