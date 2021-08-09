@@ -88,12 +88,11 @@ class MyBot(ActivityHandler):
              print('here1')
              await self.sio.emit('dbnames',{'userid': userid,type:'dbnames_for_dbcards'}, to=self.client_sid)
              print('here2')
-             return
             #  contextToReturn = MessageFactory.attachment(Attachment(
             #         content_type='application/vnd.microsoft.card.adaptive', content=prepareChooseDBCard(self.sio,self.client_sid))) 
                     
           else:
-              contextToReturn = f"You said '{ turn_context.activity.text }'"
+             contextToReturn = f"You said '{ turn_context.activity.text }'"
         elif turn_context.activity.value != None:
           if turn_context.activity.value['submit_type']!=None:
             if turn_context.activity.value['submit_type']=='chooseDB_info':
@@ -126,7 +125,7 @@ class MyBot(ActivityHandler):
                     content_type='application/vnd.microsoft.card.adaptive', content=prepareChooseDBCard(dataToSend)))
         elif type=='hostname_for_dbcards':
             contextToReturn=MessageFactory.attachment(Attachment(
-                    content_type='application/vnd.microsoft.card.adaptive', content=prepareChooseDBCard(dataToSend)))            
+                    content_type='application/vnd.microsoft.card.adaptive', content=prepareHostDetailCard(dataToSend)))            
         else: 
             contextToReturn = "Testing proactive msg"
         print('CONVERSATION_REFERENCES.values\n',CONVERSATION_REFERENCES)
