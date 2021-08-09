@@ -83,8 +83,12 @@ class MyBot(ActivityHandler):
               # turn_context.activity.channel_data['tenant']['id']
               await self.sio.emit('need-pic',{'data': userid}, to=self.client_sid)#,namespace="/"
           elif turn_context.activity.text == 'dbInfo':
-             contextToReturn = MessageFactory.attachment(Attachment(
-                    content_type='application/vnd.microsoft.card.adaptive', content=prepareChooseDBCard()))      
+             userid=self._add_conversation_reference(turn_context.activity)
+             await self.sio.emit('dbnames',{'userid': userid,type:'dbnames_for_dbcards'}, to=self.client_sid)
+             return
+            #  contextToReturn = MessageFactory.attachment(Attachment(
+            #         content_type='application/vnd.microsoft.card.adaptive', content=prepareChooseDBCard(self.sio,self.client_sid))) 
+                    
           else:
               contextToReturn = f"You said '{ turn_context.activity.text }'"
         elif turn_context.activity.value != None:
@@ -92,7 +96,7 @@ class MyBot(ActivityHandler):
             if turn_context.activity.value['submit_type']=='chooseDB_info':
               variableToPass={'choose_db':turn_context.activity.value['choose_db'],'choose_info_type': turn_context.activity.value['choose_info_type']}            
               contextToReturn = MessageFactory.attachment(Attachment(
-                    content_type='application/vnd.microsoft.card.adaptive', content=prepareHostDetailCard(self.sio,variableToPass)))   
+                    content_type='application/vnd.microsoft.card.adaptive', content=prepareHostDetailCard(self.sio,self.client_sid,variableToPass)))   
             elif turn_context.activity.value['submit_type']=='chooseDetail_HostInfo':
               print(turn_context.activity.value)
               ##emit  
@@ -108,6 +112,9 @@ class MyBot(ActivityHandler):
         if type=='base64img':
             herocard = HeroCard(title="yourPic",images=[CardImage(url=dataToSend)])
             contextToReturn=MessageFactory.attachment(CardFactory.hero_card(herocard))
+        elif type=='dbnames_for_dbcards':
+            contextToReturn=MessageFactory.attachment(Attachment(
+                    content_type='application/vnd.microsoft.card.adaptive', content=prepareChooseDBCard(dataToSend)))
         else: 
             contextToReturn = "Testing proactive msg"
         print('CONVERSATION_REFERENCES.values\n',CONVERSATION_REFERENCES)
@@ -125,7 +132,7 @@ class MyBot(ActivityHandler):
             lambda turn_context: turn_context.send_activity(contextToReturn),
             CONFIG.APP_ID,
         )
-        return await self._send_suggested_actions(conversation_reference)
+        return #await self._send_suggested_actions(conversation_reference)
 
     async def on_members_added_activity(
         self,
@@ -135,7 +142,7 @@ class MyBot(ActivityHandler):
         for member_added in members_added:
             if member_added.id != turn_context.activity.recipient.id:
                 await turn_context.send_activity("Hello and welcome!")
-        return await self._send_suggested_actions(turn_context)
+        return # await self._send_suggested_actions(turn_context)
 
     def _add_conversation_reference(self, activity: Activity):
         """
