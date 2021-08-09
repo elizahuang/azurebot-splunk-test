@@ -50,20 +50,17 @@ choices_template= {
                     "value": "test_value"
                 }
 
-def prepareChooseDBCard():
+async def prepareChooseDBCard(dbnames):
+    
     cardToReturn=copy.deepcopy(card_template)
-    dbnames=[{'name':'oracle11111'},{'name':'oracle22222'},{'name':'db2_33333'}]
     for items in dbnames:
         choiceItem=copy.deepcopy(choices_template)
-        choiceItem["title"]=items["name"]
-        choiceItem["value"]=items["name"]
+        choiceItem["title"]=items
+        choiceItem["value"]=items
         cardToReturn["body"][1]["choices"]+=[choiceItem]
     # infoOptions=[{'name':'cpu'},{'name':'mem'}]
     # for items in infoOptions:
     #     choiceItem=copy.deepcopy(choices_template)
     #     choiceItem["title"],choiceItem["value"]=items["name"]
     #     cardToReturn["body"][1]["choices"]+=[choiceItem]
-
-
-
     return cardToReturn

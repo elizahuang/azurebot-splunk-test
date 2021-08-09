@@ -314,7 +314,7 @@ choice_template= {
                     "value": "Choice 1"
                 }
 
-def prepareHostDetailCard(sio,db_specifications):
+def prepareHostDetailCard(sio,client_id,db_specifications):
     cardToReturn=copy.deepcopy(card_template)
     cardToReturn["body"][1]["text"]="選定查看的項目: "
     for key in db_specifications:

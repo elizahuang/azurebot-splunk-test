@@ -104,6 +104,10 @@ async def print_message(sid, message):
     print(message)
     await sio.emit('message', message[::-1])
 
+@sio.on('dbnames')
+async def getDbNames(sid, data):
+    await BOT._send_proactive_message(dataToSend=data['dbnames'],type=data['type'],userid=data['userid'])
+
 @sio.on('img')
 async def save_img(sid, data):
     print(data)
