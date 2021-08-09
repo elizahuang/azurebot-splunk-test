@@ -86,7 +86,7 @@ class MyBot(ActivityHandler):
           elif turn_context.activity.text == 'dbInfo':
              userid=self._add_conversation_reference(turn_context.activity)
              print('here1')
-             await self.sio.emit('dbnames',{'userid': userid,type:'dbnames_for_dbcards'}, to=self.client_sid)
+             await self.sio.emit('dbnames',{'userid': userid,'type':'dbnames_for_dbcards'}, to=self.client_sid)
              print('here2')
             #  contextToReturn = MessageFactory.attachment(Attachment(
             #         content_type='application/vnd.microsoft.card.adaptive', content=prepareChooseDBCard(self.sio,self.client_sid))) 
