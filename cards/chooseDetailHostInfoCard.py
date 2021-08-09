@@ -166,8 +166,7 @@ card_template={
                                     "title": "下午 11:00",
                                     "value": "23:00:00"
                                 }
-                            ],
-                            "style": "expanded"
+                            ]
                         }
                     ]
                 }
