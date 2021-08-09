@@ -90,7 +90,7 @@ class MyBot(ActivityHandler):
              print('here2')
             #  contextToReturn = MessageFactory.attachment(Attachment(
             #         content_type='application/vnd.microsoft.card.adaptive', content=prepareChooseDBCard(self.sio,self.client_sid))) 
-                    
+             contextToReturn ='dbname request sent'       
           else:
              contextToReturn = f"You said '{ turn_context.activity.text }'"
         elif turn_context.activity.value != None:
