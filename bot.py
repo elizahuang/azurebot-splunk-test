@@ -102,10 +102,12 @@ class MyBot(ActivityHandler):
                               'userid':userid,
                               'type':'hostname_for_dbcards'
                               }     
-              await self.sio.emit('db_hosts',variableToPass, to=self.client_sid)
+              await self.sio.emit('dbhosts',variableToPass, to=self.client_sid)
             #   contextToReturn = MessageFactory.attachment(Attachment(
             #         content_type='application/vnd.microsoft.card.adaptive', content=prepareHostDetailCard(self.sio,self.client_sid,variableToPass)))   
+              contextToReturn='dbhost request sent'
             elif turn_context.activity.value['submit_type']=='chooseDetail_HostInfo':
+              
               print(turn_context.activity.value)
               ##emit  
         await turn_context.send_activity(contextToReturn)

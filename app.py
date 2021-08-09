@@ -109,7 +109,7 @@ async def getDbNames(sid, data):
     print('data: ',data)
     await BOT._send_proactive_message(dataToSend=data['dbnames'],type=data['type'],userid=data['userid'])
 
-@sio.on('db_hosts')
+@sio.on('dbhosts')
 async def getDbHosts(sid, data):  
     print('data: ',data)  
     await BOT._send_proactive_message(dataToSend=data,type=data['type'],userid=data['userid'])
