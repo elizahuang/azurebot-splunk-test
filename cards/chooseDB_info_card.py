@@ -50,8 +50,7 @@ choices_template= {
                     "value": "test_value"
                 }
 
-async def prepareChooseDBCard(dbnames):
-    
+def prepareChooseDBCard(dbnames):    
     cardToReturn=copy.deepcopy(card_template)
     for items in dbnames:
         choiceItem=copy.deepcopy(choices_template)
