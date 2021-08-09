@@ -119,6 +119,7 @@ class MyBot(ActivityHandler):
               del variableToPass["choose_start_hour"]
               del variableToPass["choose_end_hour"]
               del variableToPass["submit_type"]
+              print('variableToPass_needPic',variableToPass)
               await self.sio.emit('need-pic',variableToPass, to=self.client_sid)
               contextToReturn='dbpic request sent'
               ##emit  
