@@ -94,9 +94,10 @@ class MyBot(ActivityHandler):
           else:
              contextToReturn = f"You said '{ turn_context.activity.text }'"
         elif turn_context.activity.value != None:
+          userid=self._add_conversation_reference(turn_context.activity)
           if turn_context.activity.value['submit_type']!=None:
             if turn_context.activity.value['submit_type']=='chooseDB_info':
-              userid=self._add_conversation_reference(turn_context.activity)
+              
               variableToPass={'choose_db':turn_context.activity.value['choose_db'],
                               'choose_info_type': turn_context.activity.value['choose_info_type'],
                               'userid':userid,
@@ -107,8 +108,19 @@ class MyBot(ActivityHandler):
             #         content_type='application/vnd.microsoft.card.adaptive', content=prepareHostDetailCard(self.sio,self.client_sid,variableToPass)))   
               contextToReturn='dbhost request sent'
             elif turn_context.activity.value['submit_type']=='chooseDetail_HostInfo':
-              
               print(turn_context.activity.value)
+              variableToPass=turn_context.activity.value
+              variableToPass["start_time"]=variableToPass["start_date"]+" "+variableToPass["choose_start_hour"]
+              variableToPass["end_time"]=variableToPass["end_date"]+" "+variableToPass["choose_end_hour"]
+              variableToPass["userid"]=userid
+            #   variableToPass["type"]="picForDB"
+              del variableToPass["start_date"]
+              del variableToPass["end_date"]
+              del variableToPass["choose_start_hour"]
+              del variableToPass["choose_end_hour"]
+              del variableToPass["submit_type"]
+              await self.sio.emit('need-pic',variableToPass, to=self.client_sid)
+              contextToReturn='dbpic request sent'
               ##emit  
         await turn_context.send_activity(contextToReturn)
         # return await self._send_suggested_actions(turn_context)
