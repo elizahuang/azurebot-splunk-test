@@ -318,13 +318,13 @@ def prepareHostDetailCard(db_specifications):
     cardToReturn=copy.deepcopy(card_template)
     cardToReturn["body"][1]["text"]="選定查看的項目: "+" "+db_specifications["choose_db"]+" "+db_specifications["choose_info_type"]
     ##問Host, sockerio
-    hosts=[{'name':'host1111'},{'name':'host2222'},{'name':'host3333'},{'name':'host4444'}]
-    for host in hosts:
+    # hosts=[{'name':'host1111'},{'name':'host2222'},{'name':'host3333'},{'name':'host4444'}]
+    for host in db_specifications['dbhosts']:
         choice=copy.deepcopy(choice_template) 
         choice['title']=host#['name']
         choice['value']=host#['name']
         cardToReturn["body"][2]["choices"]+=[choice]
-    cardToReturn["actions"][0]["data"]["choose_db"]=[db_specifications["choose_db"]]
-    cardToReturn["actions"][0]["data"]["choose_info_type"]=[db_specifications["choose_info_type"]]
+    cardToReturn["actions"][0]["data"]["choose_db"]=db_specifications["choose_db"]
+    cardToReturn["actions"][0]["data"]["choose_info_type"]=db_specifications["choose_info_type"]
 
     return cardToReturn
