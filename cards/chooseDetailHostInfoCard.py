@@ -325,7 +325,8 @@ def prepareHostDetailCard(sio,db_specifications):
     hosts=[{'name':'host1111'},{'name':'host2222'},{'name':'host3333'},{'name':'host4444'}]
     for host in hosts:
         choice=copy.deepcopy(choice_template) 
-        choice['title'],choice['value']=host['name']
+        choice['title']=host['name']
+        choice['value']=host['name']
         cardToReturn["body"][2]["choices"]+=[choice]
     
 
