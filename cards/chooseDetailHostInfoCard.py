@@ -314,20 +314,17 @@ choice_template= {
                     "value": "Choice 1"
                 }
 
-def prepareHostDetailCard(sio,client_id,db_specifications):
+def prepareHostDetailCard(db_specifications):
     cardToReturn=copy.deepcopy(card_template)
-    cardToReturn["body"][1]["text"]="選定查看的項目: "
-    for key in db_specifications:
-        cardToReturn["body"][1]["text"]+=" "
-        cardToReturn["body"][1]["text"]+=db_specifications.get(key)
+    cardToReturn["body"][1]["text"]="選定查看的項目: "+" "+db_specifications["choose_db"]+" "+db_specifications["choose_info_type"]
     ##問Host, sockerio
     hosts=[{'name':'host1111'},{'name':'host2222'},{'name':'host3333'},{'name':'host4444'}]
     for host in hosts:
         choice=copy.deepcopy(choice_template) 
-        choice['title']=host['name']
-        choice['value']=host['name']
+        choice['title']=host#['name']
+        choice['value']=host#['name']
         cardToReturn["body"][2]["choices"]+=[choice]
-    
-
+    cardToReturn["actions"][0]["data"]+=[db_specifications["choose_db"]]
+    cardToReturn["actions"][0]["data"]+=[db_specifications["choose_info_type"]]
 
     return cardToReturn

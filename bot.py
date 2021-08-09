@@ -95,9 +95,15 @@ class MyBot(ActivityHandler):
         elif turn_context.activity.value != None:
           if turn_context.activity.value['submit_type']!=None:
             if turn_context.activity.value['submit_type']=='chooseDB_info':
-              variableToPass={'choose_db':turn_context.activity.value['choose_db'],'choose_info_type': turn_context.activity.value['choose_info_type']}            
-              contextToReturn = MessageFactory.attachment(Attachment(
-                    content_type='application/vnd.microsoft.card.adaptive', content=prepareHostDetailCard(self.sio,self.client_sid,variableToPass)))   
+              userid=self._add_conversation_reference(turn_context.activity)
+              variableToPass={'choose_db':turn_context.activity.value['choose_db'],
+                              'choose_info_type': turn_context.activity.value['choose_info_type'],
+                              'userid':userid,
+                              'type':'hostname_for_dbcards'
+                              }     
+              await self.sio.emit('db_hosts',variableToPass, to=self.client_sid)
+            #   contextToReturn = MessageFactory.attachment(Attachment(
+            #         content_type='application/vnd.microsoft.card.adaptive', content=prepareHostDetailCard(self.sio,self.client_sid,variableToPass)))   
             elif turn_context.activity.value['submit_type']=='chooseDetail_HostInfo':
               print(turn_context.activity.value)
               ##emit  
@@ -116,6 +122,9 @@ class MyBot(ActivityHandler):
         elif type=='dbnames_for_dbcards':
             contextToReturn=MessageFactory.attachment(Attachment(
                     content_type='application/vnd.microsoft.card.adaptive', content=prepareChooseDBCard(dataToSend)))
+        elif type=='hostname_for_dbcards':
+            contextToReturn=MessageFactory.attachment(Attachment(
+                    content_type='application/vnd.microsoft.card.adaptive', content=prepareChooseDBCard(dataToSend)))            
         else: 
             contextToReturn = "Testing proactive msg"
         print('CONVERSATION_REFERENCES.values\n',CONVERSATION_REFERENCES)
