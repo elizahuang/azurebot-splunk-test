@@ -324,7 +324,7 @@ def prepareHostDetailCard(db_specifications):
         choice['title']=host#['name']
         choice['value']=host#['name']
         cardToReturn["body"][2]["choices"]+=[choice]
-    cardToReturn["actions"][0]["data"]+=[db_specifications["choose_db"]]
-    cardToReturn["actions"][0]["data"]+=[db_specifications["choose_info_type"]]
+    cardToReturn["actions"][0]["data"]["choose_db"]=[db_specifications["choose_db"]]
+    cardToReturn["actions"][0]["data"]["choose_info_type"]=[db_specifications["choose_info_type"]]
 
     return cardToReturn
