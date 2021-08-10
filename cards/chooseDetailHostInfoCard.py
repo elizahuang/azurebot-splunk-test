@@ -330,9 +330,9 @@ def prepareHostDetailCard(db_specifications):
     for host in db_specifications['dbhosts']:
         choice=copy.deepcopy(choice_template) 
         choice['title']=host#['name']
-        choice['value']=json.dumps({'chosen_hosts':[host]})#['name']
+        choice['value']=json.dumps({'chosen_host':[host]})#['name']
         cardToReturn["body"][2]["choices"]+=[choice]
-    cardToReturn["body"][2]["choices"][0]['value']=json.dumps({'chosen_hosts':db_specifications['dbhosts']})
+    cardToReturn["body"][2]["choices"][0]['value']=json.dumps({'chosen_host':db_specifications['dbhosts']})
     cardToReturn["actions"][0]["data"]["choose_db"]=db_specifications["choose_db"]
     cardToReturn["actions"][0]["data"]["choose_info_type"]=db_specifications["choose_info_type"]
 
