@@ -66,24 +66,24 @@ class MyBot(ActivityHandler):
         # print('activity: ',json.dumps(turn_context.activity, sort_keys=True, indent=4),'\n')
         # await turn_context.send_activity(f"You said '{ turn_context.activity.text }'")
         if turn_context.activity.text != None:
-          if turn_context.activity.text == 'proactive':
+          if 'proactive' in turn_context.activity.text :
               userid=self._add_conversation_reference(turn_context.activity)
               await self._send_proactive_message(userid=userid)
 
-          elif turn_context.activity.text == 'card':
+          elif 'card' in turn_context.activity.text :
               cardAtt = create_hero_card()
               contextToReturn = MessageFactory.attachment(cardAtt)
           # elif turn_context.activity.text=='adaptive':
           #     contextToReturn =MessageFactory.attachment(Attachment(content_type='application/vnd.microsoft.card.adaptive',
           #                               content=)
-          elif turn_context.activity.text == 'getPic':
+          elif 'getPic' in turn_context.activity.text :
               contextToReturn ='pic request sent'
               # print('(type)turn_context.activity.channel_data\n',type(turn_context.activity.channel_data))
               # print('turn_context.activity.channel_data\n',turn_context.activity.channel_data['tenant']['id'])
               userid=self._add_conversation_reference(turn_context.activity)
               # turn_context.activity.channel_data['tenant']['id']
               await self.sio.emit('need-pic',{'data': userid}, to=self.client_sid)#,namespace="/"
-          elif turn_context.activity.text == 'dbInfo':
+          elif 'dbInfo' in turn_context.activity.text:
              userid=self._add_conversation_reference(turn_context.activity)
              print('here1')
              await self.sio.emit('dbnames',{'userid': userid,'type':'dbnames_for_dbcards'}, to=self.client_sid)
