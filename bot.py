@@ -87,6 +87,7 @@ class MyBot(ActivityHandler):
              userid=self._add_conversation_reference(turn_context.activity)
              print('here1')
              print({'userid': userid,'type':'dbnames_for_dbcards'})
+             print('self.client_sid:',self.client_sid)
              await self.sio.emit('dbnames',{'userid': userid,'type':'dbnames_for_dbcards'}, to=self.client_sid)
              print('here2')
             #  contextToReturn = MessageFactory.attachment(Attachment(
