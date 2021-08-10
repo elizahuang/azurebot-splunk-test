@@ -57,7 +57,9 @@ card_template={
                         {
                             "type": "Input.Date",
                             "label": "開始日期",
-                            "id": "start_date"
+                            "id": "start_date",
+                            "isRequired": True,
+                            "errorMessage": "start date is required"
                         }
                     ]
                 },
@@ -166,7 +168,9 @@ card_template={
                                     "title": "下午 11:00",
                                     "value": "23:00:00"
                                 }
-                            ]
+                            ],
+                            "isRequired": True,
+                            "errorMessage": "start time is required"
                         }
                     ]
                 }
@@ -182,7 +186,9 @@ card_template={
                         {
                             "type": "Input.Date",
                             "label": "結束日期",
-                            "id": "end_date"
+                            "id": "end_date",
+                            "isRequired": True,
+                            "errorMessage": "end date is required"
                         }
                     ]
                 },
@@ -291,7 +297,9 @@ card_template={
                                     "title": "下午 11:00",
                                     "value": "23:00:00"
                                 }
-                            ]
+                            ],
+                            "isRequired": True,
+                            "errorMessage": "end time is required"
                         }
                     ]
                 }
