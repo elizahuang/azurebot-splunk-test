@@ -86,6 +86,7 @@ class MyBot(ActivityHandler):
           elif 'dbInfo' in turn_context.activity.text:
              userid=self._add_conversation_reference(turn_context.activity)
              print('here1')
+             print({'userid': userid,'type':'dbnames_for_dbcards'})
              await self.sio.emit('dbnames',{'userid': userid,'type':'dbnames_for_dbcards'}, to=self.client_sid)
              print('here2')
             #  contextToReturn = MessageFactory.attachment(Attachment(
@@ -103,6 +104,7 @@ class MyBot(ActivityHandler):
                               'userid':userid,
                               'type':'hostname_for_dbcards'
                               }     
+              print(variableToPass)
               await self.sio.emit('dbhosts',variableToPass, to=self.client_sid)
             #   contextToReturn = MessageFactory.attachment(Attachment(
             #         content_type='application/vnd.microsoft.card.adaptive', content=prepareHostDetailCard(self.sio,self.client_sid,variableToPass)))   
