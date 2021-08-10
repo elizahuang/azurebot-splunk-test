@@ -116,6 +116,7 @@ class MyBot(ActivityHandler):
               variableToPass["start_time"]=variableToPass["start_date"]+"T"+variableToPass["choose_start_hour"]
               variableToPass["end_time"]=variableToPass["end_date"]+"T"+variableToPass["choose_end_hour"]
               variableToPass["userid"]=userid
+              variableToPass['chosen_hosts']=json.loads(variableToPass['chosen_hosts'])
             #   variableToPass["type"]="picForDB"
               del variableToPass["start_date"]
               del variableToPass["end_date"]
