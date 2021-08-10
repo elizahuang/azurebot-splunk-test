@@ -119,7 +119,7 @@ async def save_img(sid, data):
     print(data)
     print(type(data))
     print('data(data)',data['img'])
-    await BOT._send_proactive_message(dataToSend=data['img'],type='base64img',userid=data['data'])#data is userid
+    await BOT._send_proactive_message(dataToSend=data['img'],type='base64img',userid=data['userid'])#data is userid
 
 @sio.event
 def connect(sid, environ, auth):
