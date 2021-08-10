@@ -27,26 +27,26 @@ card_template={
             "label": "Host",
             "id": "choose_host"
         },
-        {
-            "type": "Input.ChoiceSet",
-            "choices": [
-                {
-                    "title": "sum",
-                    "value": "sum"
-                },
-                {
-                    "title": "max",
-                    "value": "max"
-                },
-                {
-                    "title": "avg",
-                    "value": "avg"
-                }
-            ],
-            "placeholder": "請選擇Aggregation type",
-            "id": "aggregation_type",
-            "label": "Aggregation"
-        },
+        # {
+        #     "type": "Input.ChoiceSet",
+        #     "choices": [
+        #         {
+        #             "title": "sum",
+        #             "value": "sum"
+        #         },
+        #         {
+        #             "title": "max",
+        #             "value": "max"
+        #         },
+        #         {
+        #             "title": "avg",
+        #             "value": "avg"
+        #         }
+        #     ],
+        #     "placeholder": "請選擇Aggregation type",
+        #     "id": "aggregation_type",
+        #     "label": "Aggregation"
+        # },
         {
             "type": "ColumnSet",
             "columns": [
@@ -332,6 +332,7 @@ def prepareHostDetailCard(db_specifications):
         choice['title']=host#['name']
         choice['value']=host#['name']
         cardToReturn["body"][2]["choices"]+=[choice]
+    cardToReturn["body"][2]["choices"][0]['value']=db_specifications['dbhosts']
     cardToReturn["actions"][0]["data"]["choose_db"]=db_specifications["choose_db"]
     cardToReturn["actions"][0]["data"]["choose_info_type"]=db_specifications["choose_info_type"]
 
