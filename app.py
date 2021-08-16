@@ -17,6 +17,7 @@ from botbuilder.core.integration import aiohttp_error_middleware
 from botbuilder.schema import Activity, ActivityTypes,ConversationReference
 
 from bot import MyBot,ADAPTER,CONFIG,CONVERSATION_REFERENCES
+from generateChart import plotPicAnd2Base64
 # from config import DefaultConfig
 
 
@@ -118,8 +119,9 @@ async def getDbHosts(sid, data):
 async def save_img(sid, data):
     print(data)
     print(type(data))
-    print('data(data)',data['img'])
-    await BOT._send_proactive_message(dataToSend=data['img'],type='base64img',userid=data['userid'])#data is userid
+    # print('data(data)',data['img']
+    await BOT._send_proactive_message(dataToSend=plotPicAnd2Base64(data),type='base64img',userid=data['userid'])#data is userid
+    # await BOT._send_proactive_message(dataToSend=data['img'],type='base64img',userid=data['userid'])#data is userid
 
 @sio.event
 def connect(sid, environ, auth):
