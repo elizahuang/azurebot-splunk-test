@@ -120,7 +120,7 @@ async def save_img(sid, data):
     print(data)
     print(type(data))
     # print('data(data)',data['img']
-    await BOT._send_proactive_message(dataToSend=plotPicAnd2Base64(data),type='base64img',userid=data['userid'])#data is userid
+    await BOT._send_proactive_message(dataToSend=f"data:image/jpg;base64,{plotPicAnd2Base64(data)}",type='base64img',userid=data['userid'])#data is userid
     # await BOT._send_proactive_message(dataToSend=data['img'],type='base64img',userid=data['userid'])#data is userid
 
 @sio.event
