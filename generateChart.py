@@ -41,7 +41,7 @@ def plotPicAnd2Base64(data):
     plt.show()
     import io,base64
     plotfig_stringIObytes=io.BytesIO()
-    plt.savefig(plotfig_stringIObytes,format='jpg',dpi=90)
+    plt.savefig(plotfig_stringIObytes,format='jpg',dpi=65)
     plotfig_stringIObytes.seek(0)
     base64_plotFig = base64.b64encode(plotfig_stringIObytes.read())
     return base64_plotFig.decode('utf-8')
