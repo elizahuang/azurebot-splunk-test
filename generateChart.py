@@ -26,7 +26,7 @@ def plotPicAnd2Base64(data):
     print('processedData:\n',processedData)
     allInfo=processedData['allInfo']
     minVal,maxVal=0,0
-    print('allInfo:\n',len(allInfo[0]),allInfo[0],len(allInfo[0]),allInfo[1],sep='\n\n',end='\n\n')
+    print('allInfo:\n','len all Info ',len(allInfo),'\n',len(allInfo[0]),allInfo[0],len(allInfo[0]),allInfo[1],sep='\n\n',end='\n\n')
     for i in range(len(allInfo)):
         plt.plot(processedData['dateTime'],allInfo[i], marker='.', linestyle = '-',label=processedData['fields'][i])
         minInItem,maxInItem=min(allInfo[i]),max(allInfo[i])
@@ -37,11 +37,11 @@ def plotPicAnd2Base64(data):
     plt.xlabel('DateTime', color = 'black')
     plt.ylabel(processedData['y_name'], color = 'black',rotation ='vertical')
     plt.title(processedData['db'], color = 'black')
-    plt.ylim(minVal+10, maxVal-10) #if processedData['y_name']=='CPU_util' else None
+    plt.ylim(minVal-5, maxVal+5) #if processedData['y_name']=='CPU_util' else None
     plt.show()
     import io,base64
     plotfig_stringIObytes=io.BytesIO()
-    plt.savefig(plotfig_stringIObytes,format='jpg',dpi=200)
+    plt.savefig(plotfig_stringIObytes,format='jpg',dpi=100)
     plotfig_stringIObytes.seek(0)
     base64_plotFig = base64.b64encode(plotfig_stringIObytes.read())
     return base64_plotFig.decode('utf-8')
