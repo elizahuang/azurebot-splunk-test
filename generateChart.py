@@ -22,7 +22,7 @@ def dataPreprocess(data):
 def plotPicAnd2Base64(data):
     import matplotlib.pyplot as plt
     print(plt.get_backend())
-    plt.figure(figsize=(8, 4.25), dpi=100)
+    plt.figure(figsize=(8, 4.8), dpi=100)
     processedData=dataPreprocess(data)
     print('processedData:\n',processedData)
     allInfo=processedData['allInfo']
@@ -37,7 +37,7 @@ def plotPicAnd2Base64(data):
     plt.legend(loc = 'upper left')
     plt.xlabel('DateTime', color = 'black')
     plt.ylabel(processedData['y_name'], color = 'black')
-    plt.xticks(rotation=15)
+    plt.xticks(rotation=12)
     plt.title(processedData['db'], color = 'black')
     plt.ylim(minVal-1, maxVal+1) #if processedData['y_name']=='CPU_util' else None
     # plt.show()
