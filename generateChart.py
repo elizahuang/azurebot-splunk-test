@@ -25,15 +25,19 @@ def plotPicAnd2Base64(data):
     processedData=dataPreprocess(data)
     print('processedData:\n',processedData)
     allInfo=processedData['allInfo']
+    minVal,maxVal=0,0
     print('allInfo:\n',len(allInfo[0]),allInfo[0],len(allInfo[0]),allInfo[1],sep='\n\n',end='\n\n')
     for i in range(len(allInfo)):
         plt.plot(processedData['dateTime'],allInfo[i], marker='.', linestyle = '-',label=processedData['fields'][i])
+        minInItem,maxInItem=min(allInfo[i]),max(allInfo[i])
+        minVal=minInItem if minVal>minInItem else minVal
+        maxVal=maxInItem if maxVal<maxInItem else maxVal
 
     plt.legend(loc = 'upper left')
     plt.xlabel('DateTime', color = 'black')
     plt.ylabel(processedData['y_name'], color = 'black',rotation ='vertical')
     plt.title(processedData['db'], color = 'black')
-    plt.ylim(0, 100) #if processedData['y_name']=='CPU_util' else None
+    plt.ylim(minVal, maxVal) #if processedData['y_name']=='CPU_util' else None
     plt.show()
     import io,base64
     plotfig_stringIObytes=io.BytesIO()
