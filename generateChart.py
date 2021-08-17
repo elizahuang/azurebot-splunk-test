@@ -25,7 +25,7 @@ def dataPreprocess(data):
 def plotPicAnd2Base64(data):
     import matplotlib.pyplot as plt
     print(plt.get_backend())
-    plt.figure(figsize=(6, 2.95), dpi=100)
+    plt.figure(figsize=(6, 2.9), dpi=100)
     processedData=dataPreprocess(data)
     print('processedData:\n',processedData)
     allInfo=processedData['allInfo']
