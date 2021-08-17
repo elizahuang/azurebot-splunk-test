@@ -43,7 +43,7 @@ def plotPicAnd2Base64(data):
     plt.xticks(rotation=14,fontsize=8)
     plt.yticks(fontsize=8)
     plt.title(processedData['db'], color = 'black')
-    plt.ylim(minVal-1, maxVal+1) #if processedData['y_name']=='CPU_util' else None
+    plt.ylim(minVal-1, maxVal+10) #if processedData['y_name']=='CPU_util' else None
     # plt.show()
     import io,base64
     plotfig_stringIObytes=io.BytesIO()
