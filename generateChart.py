@@ -39,9 +39,10 @@ def plotPicAnd2Base64(data):
     plt.title(processedData['db'], color = 'black')
     plt.ylim(minVal-1, maxVal+1) #if processedData['y_name']=='CPU_util' else None
     plt.show()
+    plt.figure(figsize=(0.8, 0.425), dpi=100)
     import io,base64
     plotfig_stringIObytes=io.BytesIO()
-    plt.savefig(plotfig_stringIObytes,format='jpg',dpi=90)
+    plt.savefig(plotfig_stringIObytes,format='jpg',pad_inches=0.0,)
     plotfig_stringIObytes.seek(0)
     base64_plotFig = base64.b64encode(plotfig_stringIObytes.read())
     return base64_plotFig.decode('utf-8')
