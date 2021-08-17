@@ -37,7 +37,7 @@ def plotPicAnd2Base64(data):
     plt.legend(loc = 'upper left')
     plt.xlabel('DateTime', color = 'black')
     plt.ylabel(processedData['y_name'], color = 'black')
-    plt.xticks(rotation=30)
+    plt.xticks(rotation=15)
     plt.title(processedData['db'], color = 'black')
     plt.ylim(minVal-1, maxVal+1) #if processedData['y_name']=='CPU_util' else None
     # plt.show()
