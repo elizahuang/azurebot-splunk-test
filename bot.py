@@ -141,7 +141,8 @@ class MyBot(ActivityHandler):
         # print('***********tenant_id**********',turn_context.activity.channel_data['tenant']['id'])
         print('****userid****',userid)
         if type=='base64img':
-            herocard = HeroCard(title="yourPic",images=[CardImage(url=dataToSend)])
+            # herocard = HeroCard(title="yourPic",images=[CardImage(url=dataToSend)])
+            herocard = HeroCard(images=[CardImage(url=dataToSend)])
             contextToReturn=MessageFactory.attachment(CardFactory.hero_card(herocard))
         elif type=='dbnames_for_dbcards':
             contextToReturn=MessageFactory.attachment(Attachment(
