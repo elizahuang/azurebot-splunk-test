@@ -129,7 +129,7 @@ class MyBot(ActivityHandler):
                     await self.sio.emit('need-pic',variableToPass, to=self.client_sid)
                     contextToReturn='dbpic request sent'
                 else:
-                    contextToReturn='Start datetime should be earlier than end datetime.\nPlease retry to enter your needs.'
+                    contextToReturn='Start datetime should be earlier than end datetime.\nPlease retry.'
               ##emit  
         await turn_context.send_activity(contextToReturn)
         # return await self._send_suggested_actions(turn_context)
