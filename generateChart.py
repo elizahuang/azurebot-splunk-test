@@ -22,7 +22,7 @@ def dataPreprocess(data):
 def plotPicAnd2Base64(data):
     import matplotlib.pyplot as plt
     print(plt.get_backend())
-    plt.figure(figsize=(8, 4.25), dpi=100)
+    plt.figure(figsize=(8, 5), dpi=100)
     processedData=dataPreprocess(data)
     print('processedData:\n',processedData)
     allInfo=processedData['allInfo']
@@ -42,7 +42,7 @@ def plotPicAnd2Base64(data):
     # plt.show()
     import io,base64
     plotfig_stringIObytes=io.BytesIO()
-    plt.savefig(plotfig_stringIObytes,format='jpg',bbox_inches='tight',dpi=1000,pad_inches=0.0)#pad_inches=0.0
+    plt.savefig(plotfig_stringIObytes,format='jpg',bbox_inches='tight',dpi=1000)#pad_inches=0.0
     plotfig_stringIObytes.seek(0)
     base64_plotFig = base64.b64encode(plotfig_stringIObytes.read())
     return base64_plotFig.decode('utf-8')
