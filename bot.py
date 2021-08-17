@@ -111,21 +111,25 @@ class MyBot(ActivityHandler):
             #         content_type='application/vnd.microsoft.card.adaptive', content=prepareHostDetailCard(self.sio,self.client_sid,variableToPass)))   
               contextToReturn='dbhost request sent'
             elif turn_context.activity.value['submit_type']=='chooseDetail_HostInfo':
-              print('*************chooseDetail_HostInfo***********',turn_context.activity.value)
-              variableToPass=turn_context.activity.value
-              variableToPass["start_time"]=variableToPass["start_date"]+"T"+variableToPass["choose_start_hour"]
-              variableToPass["end_time"]=variableToPass["end_date"]+"T"+variableToPass["choose_end_hour"]
-              variableToPass["userid"]=userid
-              variableToPass['choose_host']=json.loads(variableToPass['choose_host'])['choose_host']
-            #   variableToPass["type"]="picForDB"
-              del variableToPass["start_date"]
-              del variableToPass["end_date"]
-              del variableToPass["choose_start_hour"]
-              del variableToPass["choose_end_hour"]
-              del variableToPass["submit_type"]
-              print('variableToPass_needPic',variableToPass)
-              await self.sio.emit('need-pic',variableToPass, to=self.client_sid)
-              contextToReturn='dbpic request sent'
+                print('*************chooseDetail_HostInfo***********',turn_context.activity.value)
+                variableToPass=turn_context.activity.value
+                variableToPass["start_time"]=variableToPass["start_date"]+"T"+variableToPass["choose_start_hour"]
+                variableToPass["end_time"]=variableToPass["end_date"]+"T"+variableToPass["choose_end_hour"]
+                from datetime import datetime
+                if datetime.strptime(variableToPass["start_time"],"%Y-%m-%dT%H:%M:%S")<=datetime.strptime(variableToPass["end_time"],"%Y-%m-%dT%H:%M:%S"):
+                    variableToPass["userid"]=userid
+                    variableToPass['choose_host']=json.loads(variableToPass['choose_host'])['choose_host']
+                    #   variableToPass["type"]="picForDB"
+                    del variableToPass["start_date"]
+                    del variableToPass["end_date"]
+                    del variableToPass["choose_start_hour"]
+                    del variableToPass["choose_end_hour"]
+                    del variableToPass["submit_type"]
+                    print('variableToPass_needPic',variableToPass)
+                    await self.sio.emit('need-pic',variableToPass, to=self.client_sid)
+                    contextToReturn='dbpic request sent'
+                else:
+                    contextToReturn='start datetime should be earlier than end datetime, please reenter your needs.'
               ##emit  
         await turn_context.send_activity(contextToReturn)
         # return await self._send_suggested_actions(turn_context)
