@@ -9,9 +9,11 @@ def dataPreprocess(data):
     datetimeValue=[]
     allInfo=[[] for i in range(len(fields))]
     from datetime import datetime
+    import pytz
+    tw = pytz.timezone('Asia/Taipei')
     totalData=data['search_result']['rows']
     for singleData in totalData:
-        singleDatetime=datetime.fromtimestamp(singleData[0]/1000)
+        singleDatetime=tw.localize(datetime.fromtimestamp(singleData[0]/1000))
         datetimeValue.append(singleDatetime)
         for i in range(len(fields)):
             allInfo[i].append(float(singleData[i+1]) if singleData[i+1] else numpy.nan)#numpy.nan
@@ -37,7 +39,8 @@ def plotPicAnd2Base64(data):
     plt.legend(loc = 'upper left')
     plt.xlabel('DateTime', color = 'black')
     plt.ylabel(processedData['y_name'], color = 'black')
-    plt.xticks(rotation=12)
+    plt.xticks(rotation=12,fontsize=8)
+    plt.yticks(fontsize=8)
     plt.title(processedData['db'], color = 'black')
     plt.ylim(minVal-1, maxVal+1) #if processedData['y_name']=='CPU_util' else None
     # plt.show()
