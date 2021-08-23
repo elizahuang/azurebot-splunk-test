@@ -69,6 +69,7 @@ class MyBot(ActivityHandler):
           if 'proactive' in turn_context.activity.text :
               userid=self._add_conversation_reference(turn_context.activity)
               await self._send_proactive_message(userid=userid)
+              return
 
           elif 'card' in turn_context.activity.text :
               cardAtt = create_hero_card()
