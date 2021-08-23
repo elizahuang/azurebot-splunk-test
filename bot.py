@@ -63,6 +63,9 @@ class MyBot(ActivityHandler):
     async def on_message_activity(self, turn_context: TurnContext):
         print('***********dealing with msg event**********')  ## submit btn is also msg activity
         print((turn_context.activity))
+        print('turn_context_from_property: \n',turn_context.activity.from_property.as_dict())        
+        print('turn_context_conversation: \n',turn_context.activity.conversation.as_dict())
+        print('turn_context_recipient: \n',turn_context.activity.recipient.as_dict())
         # print('activity: ',json.dumps(turn_context.activity, sort_keys=True, indent=4),'\n')
         # await turn_context.send_activity(f"You said '{ turn_context.activity.text }'")
         if turn_context.activity.text != None:
