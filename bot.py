@@ -16,7 +16,6 @@ from cards.chooseDetailHostInfoCard import *
 
 CONFIG = DefaultConfig()
 # Create adapter.
-# See https://aka.ms/about-bot-adapter to learn more about how bots work.
 SETTINGS = BotFrameworkAdapterSettings(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
 ADAPTER = BotFrameworkAdapter(SETTINGS)
 # Create a shared dictionary.  The Bot will add conversation references when users
@@ -27,8 +26,6 @@ def create_hero_card() -> Attachment:
     file = os.path.join(os.getcwd(), "cost.jpg")
     image = open(file, 'rb')
     image_read = image.read()
-    # image_64_encode = base64.encodebytes(image_read) #encodestring also works aswell as decodestring
-    # encodestring also works aswell as decodestring
     image_64_encode = base64.b64encode(image_read).decode()
     # images=[
     #     CardImage(
@@ -54,7 +51,6 @@ def create_hero_card() -> Attachment:
 
 
 class MyBot(ActivityHandler):
-    # See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
     contextToReturn = None
     def __init__(self, sio,conversation_references: Dict[str, ConversationReference],client_sid=None):
         self.sio=sio
@@ -66,8 +62,7 @@ class MyBot(ActivityHandler):
         print('turn_context_from_property: \n',turn_context.activity.from_property.as_dict())        
         print('turn_context_conversation: \n',turn_context.activity.conversation.as_dict())
         print('turn_context_recipient: \n',turn_context.activity.recipient.as_dict())
-        # print('activity: ',json.dumps(turn_context.activity, sort_keys=True, indent=4),'\n')
-        # await turn_context.send_activity(f"You said '{ turn_context.activity.text }'")
+
         if turn_context.activity.text != None:
           if 'proactive' in turn_context.activity.text :
               userid=self._add_conversation_reference(turn_context.activity)
@@ -77,25 +72,19 @@ class MyBot(ActivityHandler):
           elif 'card' in turn_context.activity.text :
               cardAtt = create_hero_card()
               contextToReturn = MessageFactory.attachment(cardAtt)
-          # elif turn_context.activity.text=='adaptive':
-          #     contextToReturn =MessageFactory.attachment(Attachment(content_type='application/vnd.microsoft.card.adaptive',
-          #                               content=)
-          elif 'getPic' in turn_context.activity.text :
-              contextToReturn ='pic request sent'
-              # print('(type)turn_context.activity.channel_data\n',type(turn_context.activity.channel_data))
-              # print('turn_context.activity.channel_data\n',turn_context.activity.channel_data['tenant']['id'])
-              userid=self._add_conversation_reference(turn_context.activity)
-              # turn_context.activity.channel_data['tenant']['id']
-              await self.sio.emit('need-pic',{'data': userid}, to=self.client_sid)#,namespace="/"
+
+        #   elif 'getPic' in turn_context.activity.text :
+        #       contextToReturn ='pic request sent'
+        #       # print('(type)turn_context.activity.channel_data\n',type(turn_context.activity.channel_data))
+        #       # print('turn_context.activity.channel_data\n',turn_context.activity.channel_data['tenant']['id'])
+        #       userid=self._add_conversation_reference(turn_context.activity)
+        #       # turn_context.activity.channel_data['tenant']['id']
+        #       await self.sio.emit('need-pic',{'data': userid}, to=self.client_sid)#,namespace="/"
           elif 'dbInfo' in turn_context.activity.text:
              userid=self._add_conversation_reference(turn_context.activity)
-             print('here1')
              print({'userid': userid,'type':'dbnames_for_dbcards'})
              print('self.client_sid:',self.client_sid)
              await self.sio.emit('dbnames',{'userid': userid,'type':'dbnames_for_dbcards'}, to=self.client_sid)
-             print('here2')
-            #  contextToReturn = MessageFactory.attachment(Attachment(
-            #         content_type='application/vnd.microsoft.card.adaptive', content=prepareChooseDBCard(self.sio,self.client_sid))) 
              contextToReturn ='dbname request sent'       
           else:
              contextToReturn = f"You said '{ turn_context.activity.text }'"
@@ -111,9 +100,8 @@ class MyBot(ActivityHandler):
                               }     
               print(variableToPass)
               await self.sio.emit('dbhosts',variableToPass, to=self.client_sid)
-            #   contextToReturn = MessageFactory.attachment(Attachment(
-            #         content_type='application/vnd.microsoft.card.adaptive', content=prepareHostDetailCard(self.sio,self.client_sid,variableToPass)))   
               contextToReturn='dbhost request sent'
+
             elif turn_context.activity.value['submit_type']=='chooseDetail_HostInfo':
                 print('*************chooseDetail_HostInfo***********',turn_context.activity.value)
                 variableToPass=turn_context.activity.value
@@ -123,7 +111,6 @@ class MyBot(ActivityHandler):
                 if datetime.strptime(variableToPass["start_time"],"%Y-%m-%dT%H:%M:%S")<=datetime.strptime(variableToPass["end_time"],"%Y-%m-%dT%H:%M:%S"):
                     variableToPass["userid"]=userid
                     variableToPass['choose_host']=json.loads(variableToPass['choose_host'])['choose_host']
-                    #   variableToPass["type"]="picForDB"
                     del variableToPass["start_date"]
                     del variableToPass["end_date"]
                     del variableToPass["choose_start_hour"]
@@ -134,10 +121,10 @@ class MyBot(ActivityHandler):
                     contextToReturn='dbpic request sent'
                 else:
                     contextToReturn='Start datetime should be earlier than end datetime.\nPlease retry.'
-              ##emit  
+  
         await turn_context.send_activity(contextToReturn)
-        # return await self._send_suggested_actions(turn_context)
         print()
+
     # # Send a message to all conversation members.
     # # This uses the shared Dictionary that the Bot adds conversation references to.
     async def _send_proactive_message(self,dataToSend=None,type=None,userid=None):
@@ -191,13 +178,12 @@ class MyBot(ActivityHandler):
         :return:
         """
         conversation_reference = TurnContext.get_conversation_reference(activity)
-        # print('*************conversation_ref to json************\n',json.dumps(conversation_reference.__dict__))
-        # print('*************conversation_ref to json************')
         self.conversation_references[
             conversation_reference.user.id
         ] = conversation_reference
         return conversation_reference.user.id
 
+    '''
     async def _send_suggested_actions(self, turn_context: TurnContext):
         reply = ThumbnailCard(
             title="option list",
@@ -218,6 +204,6 @@ class MyBot(ActivityHandler):
                     value="mem_info",
                     image="https://ct.yimg.com/xd/api/res/1.2/VhPkyLMc5NAyXyGfjLgA5g--/YXBwaWQ9eXR3YXVjdGlvbnNlcnZpY2U7aD01ODU7cT04NTtyb3RhdGU9YXV0bzt3PTcwMA--/https://s.yimg.com/ob/image/82cbd7d4-5802-4b2b-99bd-690512b34730.jpg",
                     # image_alt_text="Mem Info for Host",
-                )])         
-        
+                )])                 
         await turn_context.send_activity(MessageFactory.attachment(CardFactory.thumbnail_card(reply)))
+    '''

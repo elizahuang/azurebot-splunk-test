@@ -18,15 +18,10 @@ from botbuilder.schema import Activity, ActivityTypes,ConversationReference
 
 from bot import MyBot,ADAPTER,CONFIG,CONVERSATION_REFERENCES
 from generateChart import plotPicAnd2Base64
-# from config import DefaultConfig
-
 
 
 # Catch-all for errors.
 async def on_error(context: TurnContext, error: Exception):
-    # This check writes out errors to console log .vs. app insights.
-    # NOTE: In production environment, you should consider logging this to Azure
-    #       application insights.
     print(f"\n [on_turn_error] unhandled error: {error}", file=sys.stderr)
     traceback.print_exc()
 
@@ -50,9 +45,6 @@ async def on_error(context: TurnContext, error: Exception):
         await context.send_activity(trace_activity)
 
 # CONFIG = DefaultConfig()
-
-# # Create adapter.
-# # See https://aka.ms/about-bot-adapter to learn more about how bots work.
 # SETTINGS = BotFrameworkAdapterSettings(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
 # ADAPTER = BotFrameworkAdapter(SETTINGS)
 ADAPTER.on_turn_error = on_error
@@ -93,14 +85,12 @@ async def index(request):
         return web.Response(text=f.read(), content_type='text/html')
 
 
-# ## If we wanted to create a new websocket endpoint,
-# ## use this decorator, passing in the name of the
-# ## event we wish to listen out for
+# If we wanted to create a new websocket endpoint,
+# use this decorator, passing in the name of the event we wish to listen out for
 @sio.on('message')
 async def print_message(sid, message):
-    ## When we receive a new event of type
-    ## 'message' through a socket.io connection
-    ## we print the socket ID and the message
+    # When we receive a new event of type 'message' through a socket.io connection
+    # we print the socket ID and the message
     print("Socket ID: " , sid)
     print(message)
     await sio.emit('message', message[::-1])
@@ -119,7 +109,6 @@ async def getDbHosts(sid, data):
 async def save_img(sid, data):
     print(data)
     print(type(data))
-    # print('data(data)',data['img']
     await BOT._send_proactive_message(dataToSend=f"data:image/jpg;base64,{plotPicAnd2Base64(data)}",type='base64img',userid=data['userid'])#data is userid
     # await BOT._send_proactive_message(dataToSend=data['img'],type='base64img',userid=data['userid'])#data is userid
 
