@@ -44,9 +44,7 @@ async def on_error(context: TurnContext, error: Exception):
         # Send a trace activity, which will be displayed in Bot Framework Emulator
         await context.send_activity(trace_activity)
 
-# CONFIG = DefaultConfig()
-# SETTINGS = BotFrameworkAdapterSettings(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
-# ADAPTER = BotFrameworkAdapter(SETTINGS)
+
 ADAPTER.on_turn_error = on_error
 
 
@@ -56,13 +54,9 @@ ADAPTER.on_turn_error = on_error
 sio = socketio.AsyncServer(cors_allowed_origins='*')
 BOT = MyBot(sio,CONVERSATION_REFERENCES)
 APP = web.Application(middlewares=[aiohttp_error_middleware])
-BOT.sio.attach(APP)
-# # Binds our Socket.IO server to our Web App
-# ## instance
-# sio.attach(APP)
+BOT.sio.attach(APP) #attach websocket to web app
 
 
-# Listen for incoming requests on /api/messages
 async def messages(req: Request) -> Response:
     # Main bot message handler.
     if "application/json" in req.headers["Content-Type"]:

@@ -57,9 +57,5 @@ def prepareChooseDBCard(dbnames):
         choiceItem["title"]=items
         choiceItem["value"]=items
         cardToReturn["body"][1]["choices"]+=[choiceItem]
-    # infoOptions=[{'name':'cpu'},{'name':'mem'}]
-    # for items in infoOptions:
-    #     choiceItem=copy.deepcopy(choices_template)
-    #     choiceItem["title"],choiceItem["value"]=items["name"]
-    #     cardToReturn["body"][1]["choices"]+=[choiceItem]
+
     return cardToReturn
